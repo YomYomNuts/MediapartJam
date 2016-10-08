@@ -193,7 +193,11 @@ public class ChooseVoteScript : MonoBehaviour
                     _CurrentTimerForVote += Time.deltaTime;
                     _TimeSlider.value = _TimerForResult - _CurrentTimerForVote;
                     if (_CurrentTimerForVote >= _TimerForResult)
+                    {
+                        if (_Result)
+                            _CurrentActionVote.ValidateAction();
                         HidePancarte();
+                    }
                 } break;
         }
         _PreviousState = currentState;

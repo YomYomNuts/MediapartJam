@@ -14,6 +14,7 @@ public abstract class ActionVoteScript : MonoBehaviour
 
     #region Protected Attributes
     protected CharacterScript _Character;
+    protected GameObject _ObjectCollide;
     #endregion
 
     #region Private Attributes
@@ -23,6 +24,7 @@ public abstract class ActionVoteScript : MonoBehaviour
     void Start()
     {
         _Character = this.GetComponent<CharacterScript>();
+        _ObjectCollide = null;
         _CanBeExecute = false;
     }
 
@@ -47,6 +49,7 @@ public abstract class ActionVoteScript : MonoBehaviour
     {
         if (parCollider.gameObject.layer == (int)_LayerObjectAction)
         {
+            _ObjectCollide = parCollider.gameObject;
             ObjectActionVoteScript oavs = parCollider.GetComponent<ObjectActionVoteScript>();
             _CanBeExecute = false;
             if (oavs)
@@ -56,11 +59,15 @@ public abstract class ActionVoteScript : MonoBehaviour
     void OnTriggerExit2D(Collider2D parCollider)
     {
         if (parCollider.gameObject.layer == (int)_LayerObjectAction)
+        {
             _CanBeExecute = false;
+            _ObjectCollide = null;
+        }
     }
 
 
     protected abstract void LaunchAction();
+    public abstract void ValidateAction();
     public abstract void DisplayAction();
     public abstract bool AleatoirePondere();
 }

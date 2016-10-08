@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class SleepingScript : ActionVoteScript
+public class GettingOutScript : ActionVoteScript
 {
     #region Public Attributes
     #endregion
@@ -33,6 +33,8 @@ public class SleepingScript : ActionVoteScript
         _PositionOwner.GetComponent<Image>().sprite = _Character._Face;
         _PositionAction.SetActive(true);
         _PositionAction.GetComponent<Text>().text = _KeyActionLoc;
+        _PositionCharacterReceiver.SetActive(true);
+        _PositionCharacterReceiver.GetComponent<Image>().sprite = _ObjectCollide.transform.parent.GetComponent<CharacterScript>()._Face;
     }
 
     public override bool AleatoirePondere()

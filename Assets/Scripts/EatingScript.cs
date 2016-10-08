@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class SleepingScript : ActionVoteScript
+public class EatingScript : ActionVoteScript
 {
     #region Public Attributes
     #endregion

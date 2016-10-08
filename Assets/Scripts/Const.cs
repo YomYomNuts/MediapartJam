@@ -6,6 +6,8 @@ public class Const
     #region Layer
     public static int LAYER_CHARACTER = 8;
     public static int LAYER_BED = 9;
+    public static int LAYER_KITCHEN = 9;
+    public static int LAYER_GETOUT = 9;
     #endregion
 
     #region Enum

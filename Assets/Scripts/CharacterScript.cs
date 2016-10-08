@@ -49,7 +49,10 @@ public class CharacterScript : MonoBehaviour
                 Flip();
         }
         else
+        {
             _Rigidbody2D.velocity = new Vector2();
+            _Animator.SetFloat("Speed", Mathf.Abs(_Rigidbody2D.velocity.magnitude));
+        }
     }
 
     void Flip()

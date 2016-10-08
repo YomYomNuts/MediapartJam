@@ -39,7 +39,6 @@ public class GettingOutScript : ActionVoteScript
 
     public override bool AleatoirePondere()
     {
-        float value = UnityEngine.Random.Range(0.0f, 1.0f);
-        return value >= _Character.GetComponent<TiredScript>().Ratio();
+        return UnityEngine.Random.Range(0, 2) == 1; // TODO
     }
 }

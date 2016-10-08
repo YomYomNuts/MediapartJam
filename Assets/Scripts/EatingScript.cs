@@ -38,6 +38,6 @@ public class EatingScript : ActionVoteScript
     public override bool AleatoirePondere()
     {
         float value = UnityEngine.Random.Range(0.0f, 1.0f);
-        return value >= _Character.GetComponent<TiredScript>().Ratio();
+        return value >= _Character.GetComponent<HungryScript>().Ratio();
     }
 }

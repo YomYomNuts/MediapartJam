@@ -6,8 +6,9 @@ public class Const
     #region Layer
     public static int LAYER_CHARACTER = 8;
     public static int LAYER_BED = 9;
-    public static int LAYER_KITCHEN = 9;
-    public static int LAYER_GETOUT = 9;
+    public static int LAYER_KITCHEN = 10;
+    public static int LAYER_GETOUT = 11;
+    public static int LAYER_OBJECTPICK = 12;
     #endregion
 
     #region Enum
@@ -15,7 +16,8 @@ public class Const
     {
         BED = 9,
         KITCHEN = 10,
-        GETOUT = 11
+        GETOUT = 11,
+        OBJECTPICK = 12
     }
 
     public enum TYPE_VOTE

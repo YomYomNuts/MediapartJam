@@ -1,23 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 
-public abstract class ActionVoteScript : MonoBehaviour
+public class PickerScript : MonoBehaviour
 {
     #region Public Attributes
     public Const.LAYER_ACTION_VOTE _LayerObjectAction;
-    public string _KeyActionLoc;
-    public GameObject _PositionOwner;
-    public GameObject _PositionAction;
-    public GameObject _PositionCharacterReceiver;
+    public Vector3 _OffsetObject;
     #endregion
 
     #region Protected Attributes
-    protected CharacterScript _Character;
-    protected GameObject _ObjectCollide;
     #endregion
 
     #region Private Attributes
+    private CharacterScript _Character;
+    private GameObject _ObjectCollide;
+    private GameObject _ObjectPick;
     private bool _CanBeExecute;
     #endregion
 
@@ -25,6 +22,7 @@ public abstract class ActionVoteScript : MonoBehaviour
     {
         _Character = this.GetComponent<CharacterScript>();
         _ObjectCollide = null;
+        _ObjectPick = null;
         _CanBeExecute = false;
     }
 
@@ -32,12 +30,24 @@ public abstract class ActionVoteScript : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
         {
-            if (_CanBeExecute && GameScript.Instance.PlayerCanAction)
-                LaunchAction();
+            if (_CanBeExecute && (_ObjectPick == null || _ObjectPick != _ObjectCollide))
+            {
+                _ObjectPick = _ObjectCollide;
+                //LaunchAction();
+            }
             else
             {
                 // Add sound fail action
             }
+        }
+        else if (_ObjectPick != null && Input.GetButtonDown("Fire2_" + _Character._IDJoystick))
+        {
+            _ObjectPick = null;
+        }
+
+        if (_ObjectPick)
+        {
+            _ObjectPick.transform.position = this.transform.position + _OffsetObject;
         }
     }
 
@@ -50,7 +60,7 @@ public abstract class ActionVoteScript : MonoBehaviour
         if (parCollider.gameObject.layer == (int)_LayerObjectAction)
         {
             _ObjectCollide = parCollider.gameObject;
-            ObjectActionVoteScript oavs = parCollider.GetComponent<ObjectActionVoteScript>();
+            ObjectActionPickScript oavs = parCollider.GetComponent<ObjectActionPickScript>();
             _CanBeExecute = false;
             if (oavs)
                 _CanBeExecute = oavs.CanBeUse();
@@ -64,10 +74,4 @@ public abstract class ActionVoteScript : MonoBehaviour
             _ObjectCollide = null;
         }
     }
-
-
-    protected abstract void LaunchAction();
-    public abstract void ValidateAction();
-    public abstract void DisplayAction();
-    public abstract bool AleatoirePondere();
 }

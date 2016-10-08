@@ -48,6 +48,8 @@ public class CharacterScript : MonoBehaviour
             else if (moveRightLeft < 0.0f && _FacingRight)
                 Flip();
         }
+        else
+            _Rigidbody2D.velocity = new Vector2();
     }
 
     void Flip()

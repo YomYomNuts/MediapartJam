@@ -4,10 +4,10 @@ using System.Collections;
 public class VoteChoiceCharacterScript : MonoBehaviour
 {
     #region Public Attributes
-    public string _Majorite = "Fire1";
-    public string _Aleatoire = "Fire2";
-    public string _AleatoirePondere = "Fire3";
-    public string _AleatoireElective = "Fire4";
+    public string _Majorite = "Fire4";
+    public string _Aleatoire = "Fire1";
+    public string _AleatoirePondere = "Fire2";
+    public string _AleatoireElective = "Fire3";
     #endregion
 
     #region Protected Attributes
@@ -25,7 +25,7 @@ public class VoteChoiceCharacterScript : MonoBehaviour
 	
 	void Update ()
     {
-        if (_CurrentChoice == Const.TYPE_VOTE.NONE)
+        if (_CurrentChoice == Const.TYPE_VOTE.ABSTENTION)
         {
             if (Input.GetButtonDown(_Majorite + "_" + _Character._IDJoystick))
                 _CurrentChoice = Const.TYPE_VOTE.MAJORITE;
@@ -41,7 +41,7 @@ public class VoteChoiceCharacterScript : MonoBehaviour
     public void SetActive(bool parState)
     {
         enabled = parState;
-        _CurrentChoice = Const.TYPE_VOTE.NONE;
+        _CurrentChoice = Const.TYPE_VOTE.ABSTENTION;
     }
 
     public Const.TYPE_VOTE GetCurrentChoice()

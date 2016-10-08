@@ -18,12 +18,18 @@ public class Const
 
     public enum TYPE_VOTE
     {
-        NONE = 0,
+        ABSTENTION = 0,
         MAJORITE,
         ALEATOIRE,
         ALEATOIRE_PONDERE,
-        ALEATOIRE_ELECTIVE,
-        LENGHT
+        ALEATOIRE_ELECTIVE
+    }
+
+    public enum BOOLEAN_VOTE
+    {
+        ABSTENTION = 0,
+        YES,
+        NO
     }
 
     public enum SCREEN

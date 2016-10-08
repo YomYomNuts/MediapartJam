@@ -28,8 +28,15 @@ public abstract class ActionVoteScript : MonoBehaviour
 
     void Update()
     {
-        if (_CanBeExecute && Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
-            LaunchAction();
+        if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
+        {
+            if (_CanBeExecute)
+                LaunchAction();
+            else
+            {
+                // Add sound fail action
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D parCollider)

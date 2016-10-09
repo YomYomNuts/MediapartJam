@@ -196,6 +196,8 @@ public class ChooseVoteScript : MonoBehaviour
                     {
                         if (_Result)
                             _CurrentActionVote.ValidateAction();
+                        else
+                            _CurrentActionVote.CancelAction();
                         HidePancarte();
                     }
                 } break;

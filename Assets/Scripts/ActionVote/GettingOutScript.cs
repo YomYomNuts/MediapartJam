@@ -16,6 +16,7 @@ public class GettingOutScript : ActionVoteScript
 
     protected override void LaunchAction()
     {
+        _ObjectCollide.GetComponent<ObjectActionScript>().Use();
         if (_Character.CurrentAction == null)
         {
             ChooseVoteScript.Instance.ShowPancarte(this);
@@ -23,6 +24,11 @@ public class GettingOutScript : ActionVoteScript
     }
 
     public override void ValidateAction()
+    {
+
+    }
+
+    public override void CancelAction()
     {
 
     }

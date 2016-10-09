@@ -18,13 +18,19 @@ public class EatingScript : ActionVoteScript
     {
         if (_Character.CurrentAction == null)
         {
+            _ObjectCollide.GetComponent<ObjectActionScript>().Use();
             ChooseVoteScript.Instance.ShowPancarte(this);
         }
     }
 
     public override void ValidateAction()
     {
+        _ObjectCollide.GetComponent<ObjectActionScript>().UnUse();
+    }
 
+    public override void CancelAction()
+    {
+        _ObjectCollide.GetComponent<ObjectActionScript>().UnUse();
     }
 
     public override void DisplayAction()

@@ -27,6 +27,11 @@ public class SleepingScript : ActionVoteScript
 
     }
 
+    public override void CancelAction()
+    {
+
+    }
+
     public override void DisplayAction()
     {
         _PositionOwner.SetActive(true);

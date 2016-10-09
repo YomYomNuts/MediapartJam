@@ -9,6 +9,12 @@ public class Const
     public static int LAYER_KITCHEN = 10;
     public static int LAYER_GETOUT = 11;
     public static int LAYER_OBJECTPICK = 12;
+    public static int LAYER_REPAIRZONE = 13;
+    public static int LAYER_FISHINGZONE = 14;
+    public static int LAYER_MOVINGBOATZONE = 15;
+    public static int LAYER_DETECTFISH = 16;
+    public static int LAYER_BANDFISH = 17;
+    public static int LAYER_ISLAND = 18;
     #endregion
 
     #region Enum
@@ -18,6 +24,12 @@ public class Const
         KITCHEN = 10,
         GETOUT = 11,
         OBJECTPICK = 12
+    }
+    public enum LAYER_ACTION_PICK
+    {
+        REPAIRZONE = 13,
+        FISHINGZONE = 14,
+        MOVINGBOATZONE = 15
     }
 
     public enum TYPE_VOTE

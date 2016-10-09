@@ -68,7 +68,7 @@ public class EventSpawner : MonoBehaviour
             }
 
             as5_SFX_Fish.Stop();
-            //as5_SFX_Fish.Play();
+            as5_SFX_Fish.Play();
 
             SpawnFish();
 

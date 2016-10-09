@@ -118,7 +118,7 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(true);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString();
+                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
 
                         _TimeSlider.gameObject.SetActive(true);
                         _CurrentTimerForVote = 0.0f;
@@ -163,7 +163,7 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(true);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString();
+                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
                         _ImageCharacterElective.gameObject.SetActive(true);
                         _ImageCharacterElective.sprite = _CharacterSelect._Face;
 
@@ -200,9 +200,9 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(false);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString();
+                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
                         _ObjectFinalResult.gameObject.SetActive(true);
-                        _ObjectFinalResult.text = _Result.ToString();
+                        _ObjectFinalResult.text = _Result ? "Oui." : "Non.";
 
                         _CurrentTimerForVote = 0.0f;
 

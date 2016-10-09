@@ -74,5 +74,17 @@ public class GameScript : MonoBehaviour
                 SceneManager.LoadScene("End");
             }
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Splash");
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene("Game");
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SceneManager.LoadScene("Start");
+        }
     }
 }

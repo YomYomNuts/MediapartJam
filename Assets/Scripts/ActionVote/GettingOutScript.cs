@@ -44,7 +44,14 @@ public class GettingOutScript : ActionVoteScript
         //GameScript.Instance.PlayerCanAction = false;
         GameObject go = GetClosest();
         if (go != null)
-            go.GetComponentInParent<CharacterScript>().gameObject.SetActive(false);
+        {
+            CharacterScript ch = go.GetComponentInParent<CharacterScript>();
+            ch._HUDCharacter.SetActive(false);
+            ch.gameObject.SetActive(false);
+            ch.gameObject.transform.position = new Vector3(-100000, -100000, -100000);
+            go.GetComponent<Collider2D>().enabled = false;
+            _ObjectsCollide.Remove(go);
+        }
     }
 
     public override void EndAction()

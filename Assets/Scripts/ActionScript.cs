@@ -51,7 +51,7 @@ public class ActionScript : MonoBehaviour
         float distance = Mathf.Infinity;
         foreach (GameObject go in _ObjectsCollide)
         {
-            if (go != this.transform.parent.gameObject)
+            if (go.activeSelf && go != this.transform.parent.gameObject)
             {
                 float currentDistance = (this.transform.position - go.transform.position).magnitude;
                 if (currentDistance < distance)

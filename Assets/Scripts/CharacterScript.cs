@@ -11,6 +11,8 @@ public class CharacterScript : MonoBehaviour
     public AudioSource _AudioSource;
     [HideInInspector]
     public bool _BlockMovement;
+    [HideInInspector]
+    public Animator _Animator;
     #endregion
 
     #region Protected Attributes
@@ -18,7 +20,6 @@ public class CharacterScript : MonoBehaviour
 
     #region Private Attributes
     private Rigidbody2D _Rigidbody2D;
-    private Animator _Animator;
     private bool _FacingRight = true;
     private ActionVoteScript _CurrentAction;
     #endregion

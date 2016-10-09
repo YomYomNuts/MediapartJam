@@ -50,12 +50,14 @@ public class EatingScript : ActionVoteScript
         _IsActivate = true;
         _Character._BlockMovement = true;
         _StartingTimer = _Character.GetComponent<HungryScript>().GetCurrentTimer();
+        _Character._Animator.SetBool("Eating", true);
     }
 
     public override void EndAction()
     {
         _IsActivate = false;
         _Character._BlockMovement = false;
+        _Character._Animator.SetBool("Eating", false);
         _Character.GetComponent<HungryScript>().SetCurrentTimer(_StartingTimer + _ValueAddByAction);
         GameObject go = GetClosest();
         if (go != null)

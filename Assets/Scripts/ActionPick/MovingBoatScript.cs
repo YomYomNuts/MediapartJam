@@ -43,6 +43,7 @@ public class MovingBoatScript : ObjectActionPickScript
         float startMove = 0.0f;
         Vector3 normalizeDirectionBySecond = parDirection / _TimeForDeplacement;
         _CharacterApplyAction._BlockMovement = true;
+        _CharacterApplyAction._Animator.SetBool("Rowing", true);
         while (startMove < _TimeForDeplacement)
         {
             for (int i = 0; i < _ParentObjectsMoving.transform.childCount; ++i)
@@ -54,5 +55,6 @@ public class MovingBoatScript : ObjectActionPickScript
             yield return 0.0f;
         }
         _CharacterApplyAction._BlockMovement = false;
+        _CharacterApplyAction._Animator.SetBool("Rowing", false);
     }
 }

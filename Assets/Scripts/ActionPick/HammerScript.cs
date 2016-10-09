@@ -27,6 +27,7 @@ public class HammerScript : ObjectActionPickScript
             {
                 _IsActivate = false;
                 _CharacterApplyAction._BlockMovement = false;
+                _CharacterApplyAction._Animator.SetBool("Repair", false);
             }
         }
     }
@@ -40,9 +41,6 @@ public class HammerScript : ObjectActionPickScript
         _CharacterApplyAction._BlockMovement = true;
         _IsActivate = true;
         BoatScript.Instance.RemoveDamage(parZoneAction);
-    }
-
-    void EndAction()
-    {
+        _CharacterApplyAction._Animator.SetBool("Repair", true);
     }
 }

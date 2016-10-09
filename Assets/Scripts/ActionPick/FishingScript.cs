@@ -30,6 +30,7 @@ public class FishingScript : ObjectActionPickScript
             {
                 _IsActivate = false;
                 _CharacterApplyAction._BlockMovement = false;
+                _CharacterApplyAction._Animator.SetBool("Fishing", false);
                 _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
             }
         }
@@ -55,6 +56,7 @@ public class FishingScript : ObjectActionPickScript
             _IsActivate = true;
             _CharacterApplyAction = parCharacter;
             _CharacterApplyAction._BlockMovement = true;
+            _CharacterApplyAction._Animator.SetBool("Fishing", true);
             _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
         }
         else

@@ -49,6 +49,7 @@ public class SleepingScript : ActionVoteScript
         base.ValidateAction();
         _IsActivate = true;
         _Character._BlockMovement = true;
+        _Character._Animator.SetBool("Sleeping", true);
         _StartingTimer = _Character.GetComponent<TiredScript>().GetCurrentTimer();
     }
 
@@ -56,6 +57,7 @@ public class SleepingScript : ActionVoteScript
     {
         _IsActivate = false;
         _Character._BlockMovement = false;
+        _Character._Animator.SetBool("Sleeping", false);
         _Character.GetComponent<TiredScript>().SetCurrentTimer(_StartingTimer + _ValueAddByAction);
         GameObject go = GetClosest();
         if (go != null)

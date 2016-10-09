@@ -6,6 +6,7 @@ public class MovingBoatScript : ObjectActionPickScript
     #region Public Attributes
     public GameObject _ParentObjectsMoving;
     public float _Offset;
+    public float _TimeForDeplacement = 3.0f;
     #endregion
 
     #region Protected Attributes
@@ -28,13 +29,22 @@ public class MovingBoatScript : ObjectActionPickScript
     {
         MovingBoatZoneScript mbzs = parZoneAction.GetComponent<MovingBoatZoneScript>();
         if (mbzs)
+            StartCoroutine(MoveBoat(mbzs._Direction * _Offset));
+    }
+
+    IEnumerator MoveBoat(Vector3 parDirection)
+    {
+        float startMove = 0.0f;
+        Vector3 normalizeDirectionBySecond = parDirection / _TimeForDeplacement;
+        while (startMove < _TimeForDeplacement)
         {
-            Vector3 direction = mbzs._Direction * _Offset;
             for (int i = 0; i < _ParentObjectsMoving.transform.childCount; ++i)
             {
                 Transform child = _ParentObjectsMoving.transform.GetChild(i);
-                child.position += direction;
+                child.position += normalizeDirectionBySecond * Time.deltaTime;
             }
+            startMove += Time.deltaTime;
+            yield return 0.0f;
         }
     }
 }

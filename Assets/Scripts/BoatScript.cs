@@ -64,11 +64,11 @@ public class BoatScript : MonoBehaviour
             int index = Random.Range(0, _CleanZones.Count);
             _CleanZones[index].SetActive(true);
             _CleanZones.RemoveAt(index);
-            Destroy(parZone);
-            _AudioSource.Stop();
-            _AudioSource.clip = parImpact ? _AudioClipImpact : _AudioClipBreak;
-            _AudioSource.Play();
         }
+        _AudioSource.Stop();
+        _AudioSource.clip = parImpact ? _AudioClipImpact : _AudioClipBreak;
+        _AudioSource.Play();
+        Destroy(parZone);
     }
 
     public void RemoveDamage(GameObject parZone)

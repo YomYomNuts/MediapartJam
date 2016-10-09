@@ -50,7 +50,7 @@ public abstract class ObjectActionScript : MonoBehaviour
         float distance = Mathf.Infinity;
         foreach (CharacterScript cs in _Characters)
         {
-            if (cs.gameObject != this.transform.parent.gameObject)
+            if (cs.gameObject.activeSelf && cs.gameObject != this.transform.parent.gameObject)
             {
                 float currentDistance = (this.transform.position - cs.transform.position).magnitude;
                 if (currentDistance < distance)

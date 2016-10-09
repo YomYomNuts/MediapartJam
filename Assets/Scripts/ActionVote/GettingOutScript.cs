@@ -41,14 +41,17 @@ public class GettingOutScript : ActionVoteScript
         base.ValidateAction();
         _IsActivate = true;
         _Character._Animator.SetBool("Kicking", true);
-        GameScript.Instance.PlayerCanAction = false;
+        //GameScript.Instance.PlayerCanAction = false;
+        GameObject go = GetClosest();
+        if (go != null)
+            go.GetComponentInParent<CharacterScript>().gameObject.SetActive(false);
     }
 
     public override void EndAction()
     {
         _IsActivate = false;
         _Character._Animator.SetBool("Kicking", false);
-        GameScript.Instance.PlayerCanAction = true;
+        //GameScript.Instance.PlayerCanAction = true;
         GameObject go = GetClosest();
         if (go != null)
             go.GetComponent<ObjectActionScript>().UnUse();

@@ -6,7 +6,7 @@ public class FishScript : MonoBehaviour
 {
     #region Public Attributes
     public int _MaxStock;
-    public Text _Stock;
+    public TextMesh _Stock;
     #endregion
 
     #region Protected Attributes
@@ -19,6 +19,8 @@ public class FishScript : MonoBehaviour
     void Start()
     {
         _CurrentStock = (int)Random.Range(_MaxStock / 2.0f, _MaxStock);
+        if (_Stock)
+            _Stock.text = _CurrentStock.ToString();
     }
 
     void Update()

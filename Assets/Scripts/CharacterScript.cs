@@ -6,6 +6,7 @@ public class CharacterScript : MonoBehaviour
     #region Public Attributes
     public int _IDJoystick;
     public Sprite _Face;
+    public GameObject _HUDCharacter;
     public float _MaxSpeed;
     [HideInInspector]
     public AudioSource _AudioSource;
@@ -43,7 +44,7 @@ public class CharacterScript : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (GameScript.Instance.PlayerCanAction && !_BlockMovement)
+        if (GameScript.Instance.PlayerCanAction /*&& !_BlockMovement*/)
         {
             float moveRightLeft = Input.GetAxis("Horizontal_" + _IDJoystick);
             float moveUpDown = Input.GetAxis("Vertical_" + _IDJoystick);

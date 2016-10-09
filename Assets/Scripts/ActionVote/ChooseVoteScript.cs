@@ -97,7 +97,7 @@ public class ChooseVoteScript : MonoBehaviour
                     {
                         foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
                         {
-                            if (vccs.GetCurrentChoice() == Const.TYPE_VOTE.ABSTENTION)
+                            if (vccs.gameObject.activeSelf && vccs.GetCurrentChoice() == Const.TYPE_VOTE.ABSTENTION)
                                 isFinish = false;
                         }
                     }
@@ -136,11 +136,14 @@ public class ChooseVoteScript : MonoBehaviour
                         Dictionary<Const.BOOLEAN_VOTE, int> countVote = new Dictionary<Const.BOOLEAN_VOTE, int>();
                         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
                         {
-                            if (!countVote.ContainsKey(vbcs.GetCurrentChoice()))
-                                countVote.Add(vbcs.GetCurrentChoice(), 0);
-                            ++countVote[vbcs.GetCurrentChoice()];
-                            if (vbcs.GetCurrentChoice() == Const.BOOLEAN_VOTE.ABSTENTION)
-                                isFinish = false;
+                            if (vbcs.gameObject.activeSelf)
+                            {
+                                if (!countVote.ContainsKey(vbcs.GetCurrentChoice()))
+                                    countVote.Add(vbcs.GetCurrentChoice(), 0);
+                                ++countVote[vbcs.GetCurrentChoice()];
+                                if (vbcs.GetCurrentChoice() == Const.BOOLEAN_VOTE.ABSTENTION)
+                                    isFinish = false;
+                            }
                         }
                         _ScoreYesMajorite.text = countVote.ContainsKey(Const.BOOLEAN_VOTE.YES) ? countVote[Const.BOOLEAN_VOTE.YES].ToString() : "0";
                         _ScoreNoMajorite.text = countVote.ContainsKey(Const.BOOLEAN_VOTE.NO) ? countVote[Const.BOOLEAN_VOTE.NO].ToString() : "0";
@@ -240,9 +243,15 @@ public class ChooseVoteScript : MonoBehaviour
         _State = Const.SCREEN.CHOICE_VOTE;
 
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
-            vbcs.SetActive(false);
+        {
+            if (vbcs.gameObject.activeSelf)
+                vbcs.SetActive(false);
+        }
         foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
-            vccs.SetActive(true);
+        {
+            if (vccs.gameObject.activeSelf)
+                vccs.SetActive(true);
+        }
 
         // Launch VoteSequenceLoop
         as2_BG_VoteSequence.Stop();
@@ -269,9 +278,15 @@ public class ChooseVoteScript : MonoBehaviour
         _State = Const.SCREEN.NONE;
 
         foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
-            vccs.SetActive(false);
+        {
+            if (vccs.gameObject.activeSelf)
+                vccs.SetActive(false);
+        }
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
-            vbcs.SetActive(false);
+        {
+            if (vbcs.gameObject.activeSelf)
+                vbcs.SetActive(false);
+        }
     }
 
     void DetermineVote()
@@ -279,10 +294,13 @@ public class ChooseVoteScript : MonoBehaviour
         Dictionary<Const.TYPE_VOTE, int> countVote = new Dictionary<Const.TYPE_VOTE, int>();
         foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
         {
-            if (!countVote.ContainsKey(vccs.GetCurrentChoice()))
-                countVote.Add(vccs.GetCurrentChoice(), 0);
-            ++countVote[vccs.GetCurrentChoice()];
-            vccs.SetActive(false);
+            if (vccs.gameObject.activeSelf)
+            {
+                if (!countVote.ContainsKey(vccs.GetCurrentChoice()))
+                    countVote.Add(vccs.GetCurrentChoice(), 0);
+                ++countVote[vccs.GetCurrentChoice()];
+                vccs.SetActive(false);
+            }
         }
 
         var mapOrder = countVote.OrderByDescending(c => c.Value);
@@ -339,7 +357,10 @@ public class ChooseVoteScript : MonoBehaviour
     void ActiveMajorite()
     {
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
-            vbcs.SetActive(true);
+        {
+            if (vbcs.gameObject.activeSelf)
+                vbcs.SetActive(true);
+        }
     }
 
     void EndChoiceMajorite()
@@ -347,10 +368,13 @@ public class ChooseVoteScript : MonoBehaviour
         Dictionary<Const.BOOLEAN_VOTE, int> countVote = new Dictionary<Const.BOOLEAN_VOTE, int>();
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
         {
-            if (!countVote.ContainsKey(vbcs.GetCurrentChoice()))
-                countVote.Add(vbcs.GetCurrentChoice(), 0);
-            ++countVote[vbcs.GetCurrentChoice()];
-            vbcs.SetActive(false);
+            if (vbcs.gameObject.activeSelf)
+            {
+                if (!countVote.ContainsKey(vbcs.GetCurrentChoice()))
+                    countVote.Add(vbcs.GetCurrentChoice(), 0);
+                ++countVote[vbcs.GetCurrentChoice()];
+                vbcs.SetActive(false);
+            }
         }
         _ScoreYesMajorite.text = countVote.ContainsKey(Const.BOOLEAN_VOTE.YES) ? countVote[Const.BOOLEAN_VOTE.YES].ToString() : "0";
         _ScoreNoMajorite.text = countVote.ContainsKey(Const.BOOLEAN_VOTE.NO) ? countVote[Const.BOOLEAN_VOTE.NO].ToString() : "0";
@@ -387,12 +411,13 @@ public class ChooseVoteScript : MonoBehaviour
 
     void AleatoireElective()
     {
-        int index = UnityEngine.Random.Range(0, _VoteChoiceCharacters.Count);
-        _CharacterSelect = _VoteChoiceCharacters[index].GetComponent<CharacterScript>();
+        List<VoteChoiceCharacterScript> voteChoiceCharacter = _VoteChoiceCharacters.Where(obj => obj.gameObject.activeSelf).ToList();
+        int index = UnityEngine.Random.Range(0, voteChoiceCharacter.Count);
+        _CharacterSelect = voteChoiceCharacter[index].GetComponent<CharacterScript>();
         if (!_CanSelectOwnCharacterElective && _CurrentActionVote.gameObject == _CharacterSelect.gameObject)
         {
-            index = (index + 1) % _VoteChoiceCharacters.Count;
-            _CharacterSelect = _VoteChoiceCharacters[index].GetComponent<CharacterScript>();
+            index = (index + 1) % voteChoiceCharacter.Count;
+            _CharacterSelect = voteChoiceCharacter[index].GetComponent<CharacterScript>();
         }
         _CharacterSelect.GetComponent<VoteBooleanCharacterScript>().SetActive(true);
     }

@@ -21,13 +21,28 @@ public class HammerScript : ObjectActionPickScript
     protected override void Update()
     {
         base.Update();
+        if (_IsActivate)
+        {
+            if (!_CharacterApplyAction._AudioSource.isPlaying)
+            {
+                _IsActivate = false;
+                _CharacterApplyAction._BlockMovement = false;
+            }
+        }
     }
 
     public override void LaunchAction(CharacterScript parCharacter, GameObject parZoneAction)
     {
-        parCharacter._AudioSource.Stop();
-        parCharacter._AudioSource.clip = _AudioClipAction;
-        parCharacter._AudioSource.Play();
+        _CharacterApplyAction = parCharacter;
+        _CharacterApplyAction._AudioSource.Stop();
+        _CharacterApplyAction._AudioSource.clip = _AudioClipAction;
+        _CharacterApplyAction._AudioSource.Play();
+        _CharacterApplyAction._BlockMovement = true;
+        _IsActivate = true;
         BoatScript.Instance.RemoveDamage(parZoneAction);
+    }
+
+    void EndAction()
+    {
     }
 }

@@ -30,9 +30,10 @@ public class MovingBoatScript : ObjectActionPickScript
         MovingBoatZoneScript mbzs = parZoneAction.GetComponent<MovingBoatZoneScript>();
         if (mbzs)
         {
-            parCharacter._AudioSource.Stop();
-            parCharacter._AudioSource.clip = _AudioClipAction;
-            parCharacter._AudioSource.Play();
+            _CharacterApplyAction = parCharacter;
+            _CharacterApplyAction._AudioSource.Stop();
+            _CharacterApplyAction._AudioSource.clip = _AudioClipAction;
+            _CharacterApplyAction._AudioSource.Play();
             StartCoroutine(MoveBoat(mbzs._Direction * _Offset));
         }
     }
@@ -41,6 +42,7 @@ public class MovingBoatScript : ObjectActionPickScript
     {
         float startMove = 0.0f;
         Vector3 normalizeDirectionBySecond = parDirection / _TimeForDeplacement;
+        _CharacterApplyAction._BlockMovement = true;
         while (startMove < _TimeForDeplacement)
         {
             for (int i = 0; i < _ParentObjectsMoving.transform.childCount; ++i)
@@ -51,5 +53,6 @@ public class MovingBoatScript : ObjectActionPickScript
             startMove += Time.deltaTime;
             yield return 0.0f;
         }
+        _CharacterApplyAction._BlockMovement = false;
     }
 }

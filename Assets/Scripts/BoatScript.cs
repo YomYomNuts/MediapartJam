@@ -8,6 +8,9 @@ public class BoatScript : MonoBehaviour
     public List<GameObject> _ListRepairZone;
     public AudioClip _AudioClipBreak;
     public AudioClip _AudioClipImpact;
+    public Vector2 _RangeUsure;
+    public GameObject _SpriteEndBoat;
+    public List<GameObject> _ObjectsDisable;
     #endregion
 
     #region Protected Attributes
@@ -16,6 +19,8 @@ public class BoatScript : MonoBehaviour
     #region Private Attributes
     private List<GameObject> _CleanZones;
     private AudioSource _AudioSource;
+    private float _CurrentTimerUsure;
+    private float _TimerLaunchUsure;
     #endregion
 
     #region Static Attributs
@@ -43,32 +48,44 @@ public class BoatScript : MonoBehaviour
     {
         _CleanZones = _ListRepairZone;
         _AudioSource = this.GetComponent<AudioSource>();
+        _CurrentTimerUsure = 0.0f;
+        _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
     }
 
     void Update()
     {
+        _CurrentTimerUsure += Time.deltaTime;
+        if (_CurrentTimerUsure > _TimerLaunchUsure)
+        {
+            if (_CleanZones.Count > 0)
+            {
+                int index = Random.Range(0, _CleanZones.Count);
+                _CleanZones[index].SetActive(true);
+                _CleanZones.RemoveAt(index);
+            }
+            _AudioSource.Stop();
+            _AudioSource.clip = _AudioClipBreak;
+            _AudioSource.Play();
+
+            _CurrentTimerUsure = 0.0f;
+            _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D parCollider)
     {
         if (parCollider.gameObject.layer == Const.LAYER_ISLAND)
         {
-            AddDamage(parCollider.gameObject, true);
-        }
-    }
+            _AudioSource.Stop();
+            _AudioSource.clip = _AudioClipImpact;
+            _AudioSource.Play();
+            Destroy(parCollider.gameObject);
 
-    public void AddDamage(GameObject parZone, bool parImpact = false)
-    {
-        if (_CleanZones.Count > 0)
-        {
-            int index = Random.Range(0, _CleanZones.Count);
-            _CleanZones[index].SetActive(true);
-            _CleanZones.RemoveAt(index);
+            _SpriteEndBoat.SetActive(true);
+            foreach (GameObject go in _ObjectsDisable)
+                go.SetActive(false);
+            GameScript.Instance._IsActive = true;
         }
-        _AudioSource.Stop();
-        _AudioSource.clip = parImpact ? _AudioClipImpact : _AudioClipBreak;
-        _AudioSource.Play();
-        Destroy(parZone);
     }
 
     public void RemoveDamage(GameObject parZone)

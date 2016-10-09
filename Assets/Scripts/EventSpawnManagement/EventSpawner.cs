@@ -14,6 +14,8 @@ public class EventSpawner : MonoBehaviour
     public GameObject spawnPoint02;
     public GameObject spawnPoint03;
 
+    public GameObject warningPanel;
+
     public AudioSource as4_SFX_Rock;
     public AudioSource as5_SFX_Fish;
 
@@ -107,8 +109,17 @@ public class EventSpawner : MonoBehaviour
 
             SpawnRock();
 
+            warningPanel.SetActive(true);
+
+            Invoke("HideWarningPanel", 12.0f);
+
             timerRock = Random.Range(cdMinForRock, cdMaxForRock);
         }
+    }
+
+    void HideWarningPanel()
+    {
+        warningPanel.SetActive(false);
     }
 
     void SpawnRock()

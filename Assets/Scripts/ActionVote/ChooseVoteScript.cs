@@ -24,6 +24,11 @@ public class ChooseVoteScript : MonoBehaviour
     public Text _ScoreNoMajorite;
     public Text _ObjectResultVoteType;
     public Text _ObjectFinalResult;
+    public AudioSource as2_BG_VoteSequence;
+    public AudioSource as3_SFX_VoteSequence;
+    public AudioClip ac_SFX_VoteSequence01;
+    public AudioClip ac_SFX_VoteSequence02;
+    public AudioClip ac_SFX_VoteSequence03;
     #endregion
 
     #region Protected Attributes
@@ -116,6 +121,10 @@ public class ChooseVoteScript : MonoBehaviour
 
                         _TimeSlider.gameObject.SetActive(true);
                         _CurrentTimerForVote = 0.0f;
+
+                        // Play VoteSequence second SFX
+                        as3_SFX_VoteSequence.clip = ac_SFX_VoteSequence02;
+                        as3_SFX_VoteSequence.Play();
                     }
 
                     _CurrentTimerForVote += Time.deltaTime;
@@ -156,6 +165,10 @@ public class ChooseVoteScript : MonoBehaviour
 
                         _TimeSlider.gameObject.SetActive(true);
                         _CurrentTimerForVote = 0.0f;
+
+                        // Play VoteSequence second SFX
+                        as3_SFX_VoteSequence.clip = ac_SFX_VoteSequence02;
+                        as3_SFX_VoteSequence.Play();
                     }
 
                     _CurrentTimerForVote += Time.deltaTime;
@@ -188,6 +201,10 @@ public class ChooseVoteScript : MonoBehaviour
                         _ObjectFinalResult.text = _Result.ToString();
 
                         _CurrentTimerForVote = 0.0f;
+
+                        // Play VoteSequence third SFX
+                        as3_SFX_VoteSequence.clip = ac_SFX_VoteSequence03;
+                        as3_SFX_VoteSequence.Play();
                     }
 
                     _CurrentTimerForVote += Time.deltaTime;
@@ -222,6 +239,13 @@ public class ChooseVoteScript : MonoBehaviour
             vccs.SetActive(true);
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
             vbcs.SetActive(false);
+
+        // Launch VoteSequenceLoop
+        //as2_BG_VoteSequence.Play();
+
+        // Play VoteSequence first SFX
+        as3_SFX_VoteSequence.clip = ac_SFX_VoteSequence01;
+        as3_SFX_VoteSequence.Play();
     }
 
     public void HidePancarte()

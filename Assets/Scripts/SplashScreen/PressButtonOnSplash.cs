@@ -8,6 +8,7 @@ public class PressButtonOnSplash : MonoBehaviour
     public int ID;
     public Text textField;
     public GameObject button;
+    public AudioSource audioSource;
 
     private bool isWaiting;
     private SplashScreen splashScreen;
@@ -47,6 +48,7 @@ public class PressButtonOnSplash : MonoBehaviour
                         break;
                 }
 
+                audioSource.Play();
                 button.SetActive(false);
                 textField.text = "\nJoueur " + displayedID + "\n\nPrêt!";
 

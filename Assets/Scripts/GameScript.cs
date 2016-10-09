@@ -42,6 +42,11 @@ public class GameScript : MonoBehaviour
             Destroy(this.gameObject);
     }
 
+    public bool isGameStillActive()
+    {
+        return true;
+    }
+
     void Start()
     {
     }

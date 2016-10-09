@@ -3,11 +3,22 @@ using System.Collections;
 
 public class TiredScript : ComportementScript
 {
-	void Start()
-    {
-	}
+    #region Public Attributes
+    #endregion
 
-    void Update()
+    #region Protected Attributes
+    #endregion
+
+    #region Private Attributes
+    #endregion
+
+    protected override void Start()
     {
-	}
+        base.Start();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
 }

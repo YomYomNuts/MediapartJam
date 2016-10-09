@@ -8,18 +8,18 @@ public abstract class ComportementScript : MonoBehaviour
     #endregion
 
     #region Protected Attributes
+    protected float _CurrentTimer;
     #endregion
 
     #region Private Attributes
-    private float _CurrentTimer;
     #endregion
 
-    void Start()
+    protected virtual void Start()
     {
         _CurrentTimer = Random.Range(_Timer / 2.0f, _Timer);
     }
 	
-	void Update()
+	protected virtual void Update()
     {
         AddTimer(-Time.deltaTime);
     }
@@ -32,5 +32,10 @@ public abstract class ComportementScript : MonoBehaviour
     public float Ratio()
     {
         return _CurrentTimer / _Timer;
+    }
+
+    public bool IsFinish()
+    {
+        return _CurrentTimer == 0.0f;
     }
 }

@@ -119,4 +119,9 @@ public class PickerScript : MonoBehaviour
             _ZoneUsePick = null;
         }
     }
+
+    public bool IsPicking()
+    {
+        return _ObjectPick != null;
+    }
 }

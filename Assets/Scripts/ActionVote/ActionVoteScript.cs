@@ -32,7 +32,7 @@ public abstract class ActionVoteScript : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
         {
-            if (_CanBeExecute && GameScript.Instance.PlayerCanAction)
+            if (_CanBeExecute && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
                 LaunchAction();
             else
             {

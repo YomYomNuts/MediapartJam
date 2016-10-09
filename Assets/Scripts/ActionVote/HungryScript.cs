@@ -1,13 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HungryScript : ComportementScript
 {
-	void Start()
-    {
-	}
+    #region Public Attributes
+    public Slider _Slider;
+    #endregion
 
-    void Update()
+    #region Protected Attributes
+    #endregion
+
+    #region Private Attributes
+    #endregion
+
+    protected override void Start()
     {
-	}
+        base.Start();
+        _Slider.maxValue = _Timer;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        _Slider.value = _CurrentTimer;
+    }
 }

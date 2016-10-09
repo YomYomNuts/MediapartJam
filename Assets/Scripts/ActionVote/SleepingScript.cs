@@ -14,6 +14,7 @@ public class SleepingScript : ActionVoteScript
 
     #region Private Attributes
     private bool _IsActivate;
+    private float _StartingTimer;
     #endregion
 
     protected override void Start()
@@ -26,8 +27,8 @@ public class SleepingScript : ActionVoteScript
         base.Update();
         if (_IsActivate)
         {
-            _Character.GetComponent<TiredScript>().AddTimer(_ValueAddByAction);
-            if (true) // Condition audio
+            _Character.GetComponent<HungryScript>().AddTimer((_ValueAddByAction * Time.deltaTime) / _AudioClipAction.length);
+            if (!_Character._AudioSource.isPlaying)
                 EndAction();
         }
     }
@@ -45,12 +46,17 @@ public class SleepingScript : ActionVoteScript
 
     public override void ValidateAction()
     {
+        base.ValidateAction();
         _IsActivate = true;
+        _Character._BlockMovement = true;
+        _StartingTimer = _Character.GetComponent<TiredScript>().GetCurrentTimer();
     }
 
     public override void EndAction()
     {
         _IsActivate = false;
+        _Character._BlockMovement = false;
+        _Character.GetComponent<TiredScript>().SetCurrentTimer(_StartingTimer + _ValueAddByAction);
         GameObject go = GetClosest();
         if (go != null)
             go.GetComponent<ObjectActionScript>().UnUse();

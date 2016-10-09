@@ -9,6 +9,8 @@ public abstract class ObjectActionScript : MonoBehaviour
     #endregion
 
     #region Protected Attributes
+    protected CharacterScript _CharacterApplyAction;
+    protected bool _IsActivate;
     #endregion
 
     #region Private Attributes
@@ -18,6 +20,8 @@ public abstract class ObjectActionScript : MonoBehaviour
 
     protected virtual void Start()
     {
+        _CharacterApplyAction = null;
+        _IsActivate = false;
         _Characters = new List<CharacterScript>(GameObject.FindObjectsOfType<CharacterScript>());
         _IsUse = false;
     }

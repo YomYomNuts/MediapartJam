@@ -15,6 +15,16 @@ public class GettingOutScript : ActionVoteScript
     private bool _IsActivate;
     #endregion
 
+    protected override void Update()
+    {
+        base.Update();
+        if (_IsActivate)
+        {
+            if (!_Character._AudioSource.isPlaying)
+                EndAction();
+        }
+    }
+
     protected override void LaunchAction()
     {
         if (_Character.CurrentAction == null)
@@ -28,15 +38,15 @@ public class GettingOutScript : ActionVoteScript
 
     public override void ValidateAction()
     {
-        //_IsActivate = true;
-        GameObject go = GetClosest();
-        if (go != null)
-            go.GetComponent<ObjectActionScript>().UnUse();
+        base.ValidateAction();
+        _IsActivate = true;
+        GameScript.Instance.PlayerCanAction = false;
     }
 
     public override void EndAction()
     {
         _IsActivate = false;
+        GameScript.Instance.PlayerCanAction = true;
         GameObject go = GetClosest();
         if (go != null)
             go.GetComponent<ObjectActionScript>().UnUse();

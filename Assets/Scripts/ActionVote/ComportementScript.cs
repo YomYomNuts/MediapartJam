@@ -41,4 +41,14 @@ public abstract class ComportementScript : MonoBehaviour
     {
         return _CurrentTimer == 0.0f;
     }
+
+    public float GetCurrentTimer()
+    {
+        return _CurrentTimer;
+    }
+
+    public void SetCurrentTimer(float parNewTimer)
+    {
+        _CurrentTimer = parNewTimer;
+    }
 }

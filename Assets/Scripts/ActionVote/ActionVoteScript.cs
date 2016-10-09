@@ -21,16 +21,13 @@ public abstract class ActionVoteScript : ActionScript
     protected override void Update()
     {
         base.Update();
-        if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
+        if (!GameScript.Instance.IsGamePause() && Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
         {
             GameObject go = GetClosest();
             if (go != null)
             {
                 if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
                 {
-                    _AudioSource.Stop();
-                    _AudioSource.clip = _AudioClipAction;
-                    _AudioSource.Play();
                     LaunchAction();
                 }
                 else
@@ -43,9 +40,14 @@ public abstract class ActionVoteScript : ActionScript
         }
     }
 
+    public virtual void ValidateAction()
+    {
+        _AudioSource.Stop();
+        _AudioSource.clip = _AudioClipAction;
+        _AudioSource.Play();
+    }
 
     protected abstract void LaunchAction();
-    public abstract void ValidateAction();
     public abstract void EndAction();
     public abstract void DisplayAction();
     public abstract bool AleatoirePondere();

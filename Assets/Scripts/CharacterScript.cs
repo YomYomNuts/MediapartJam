@@ -9,6 +9,8 @@ public class CharacterScript : MonoBehaviour
     public float _MaxSpeed;
     [HideInInspector]
     public AudioSource _AudioSource;
+    [HideInInspector]
+    public bool _BlockMovement;
     #endregion
 
     #region Protected Attributes
@@ -35,11 +37,12 @@ public class CharacterScript : MonoBehaviour
         _Animator = this.GetComponent<Animator>();
         _AudioSource = this.GetComponent<AudioSource>();
         _CurrentAction = null;
+        _BlockMovement = false;
     }
 
 	void FixedUpdate()
     {
-        if (GameScript.Instance.PlayerCanAction)
+        if (GameScript.Instance.PlayerCanAction && !_BlockMovement)
         {
             float moveRightLeft = Input.GetAxis("Horizontal_" + _IDJoystick);
             float moveUpDown = Input.GetAxis("Vertical_" + _IDJoystick);

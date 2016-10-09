@@ -89,6 +89,7 @@ public class PickerScript : ActionScript
         if (_ObjectPick)
         {
             _ObjectPick.transform.position = _OffsetObject.position;
+            _ObjectPick.transform.eulerAngles = _OffsetObject.eulerAngles;
         }
     }
 

@@ -24,10 +24,20 @@ public class FishingScript : ObjectActionPickScript
     protected override void Update()
     {
         base.Update();
+        if (_IsActivate)
+        {
+            if (!_CharacterApplyAction._AudioSource.isPlaying)
+            {
+                _IsActivate = false;
+                _CharacterApplyAction._BlockMovement = false;
+                _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
+            }
+        }
     }
 
     public override void LaunchAction(CharacterScript parCharacter, GameObject parZoneAction)
     {
+
         List<DetectFishScript> detectFishScript = new List<DetectFishScript>(parCharacter.GetComponentsInChildren<DetectFishScript>());
         bool canLaunchAction = false;
         foreach (DetectFishScript dfs in detectFishScript)
@@ -41,6 +51,10 @@ public class FishingScript : ObjectActionPickScript
             parCharacter._AudioSource.Stop();
             parCharacter._AudioSource.clip = _AudioClipAction;
             parCharacter._AudioSource.Play();
+
+            _IsActivate = true;
+            _CharacterApplyAction = parCharacter;
+            _CharacterApplyAction._BlockMovement = true;
             _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
         }
         else

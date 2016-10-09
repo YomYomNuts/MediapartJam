@@ -15,13 +15,15 @@ public class FishingScript : ObjectActionPickScript
     private FishScript _FishScript;
     #endregion
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         _FishScript = GameScript.Instance.GetComponent<FishScript>();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
     }
 
     public override void LaunchAction(CharacterScript parCharacter, GameObject parZoneAction)

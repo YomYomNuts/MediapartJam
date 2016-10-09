@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class VoteChoiceCharacterScript : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class VoteChoiceCharacterScript : MonoBehaviour
     public string _Aleatoire = "Fire1";
     public string _AleatoirePondere = "Fire2";
     public string _AleatoireElective = "Fire3";
+    public Image _EmplacementBulle;
+    public Sprite _SpriteWait;
+    public Sprite _SpriteMajorite;
+    public Sprite _SpriteAleatoire;
+    public Sprite _SpriteAleatoirePondere;
+    public Sprite _SpriteAleatoireElective;
     #endregion
 
     #region Protected Attributes
@@ -28,13 +35,25 @@ public class VoteChoiceCharacterScript : MonoBehaviour
         if (_CurrentChoice == Const.TYPE_VOTE.ABSTENTION)
         {
             if (Input.GetButtonDown(_Majorite + "_" + _Character._IDJoystick))
+            {
                 _CurrentChoice = Const.TYPE_VOTE.MAJORITE;
+                _EmplacementBulle.sprite = _SpriteMajorite;
+            }
             if (Input.GetButtonDown(_Aleatoire + "_" + _Character._IDJoystick))
+            {
                 _CurrentChoice = Const.TYPE_VOTE.ALEATOIRE;
+                _EmplacementBulle.sprite = _SpriteAleatoire;
+            }
             if (Input.GetButtonDown(_AleatoirePondere + "_" + _Character._IDJoystick))
+            {
                 _CurrentChoice = Const.TYPE_VOTE.ALEATOIRE_PONDERE;
+                _EmplacementBulle.sprite = _SpriteAleatoirePondere;
+            }
             if (Input.GetButtonDown(_AleatoireElective + "_" + _Character._IDJoystick))
+            {
                 _CurrentChoice = Const.TYPE_VOTE.ALEATOIRE_ELECTIVE;
+                _EmplacementBulle.sprite = _SpriteAleatoireElective;
+            }
         }
     }
 
@@ -42,6 +61,8 @@ public class VoteChoiceCharacterScript : MonoBehaviour
     {
         enabled = parState;
         _CurrentChoice = Const.TYPE_VOTE.ABSTENTION;
+        _EmplacementBulle.gameObject.SetActive(parState);
+        _EmplacementBulle.sprite = _SpriteWait;
     }
 
     public Const.TYPE_VOTE GetCurrentChoice()

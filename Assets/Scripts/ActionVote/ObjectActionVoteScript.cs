@@ -12,11 +12,13 @@ public class ObjectActionVoteScript : ObjectActionScript
     #region Private Attributes
     #endregion
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
     }
 }

@@ -214,7 +214,7 @@ public class ChooseVoteScript : MonoBehaviour
                         if (_Result)
                             _CurrentActionVote.ValidateAction();
                         else
-                            _CurrentActionVote.CancelAction();
+                            _CurrentActionVote.EndAction();
                         HidePancarte();
                     }
                 } break;
@@ -235,10 +235,10 @@ public class ChooseVoteScript : MonoBehaviour
 
         _State = Const.SCREEN.CHOICE_VOTE;
 
-        foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
-            vccs.SetActive(true);
         foreach (VoteBooleanCharacterScript vbcs in _VoteChoiceBooleanCharacters)
             vbcs.SetActive(false);
+        foreach (VoteChoiceCharacterScript vccs in _VoteChoiceCharacters)
+            vccs.SetActive(true);
 
         // Launch VoteSequenceLoop
         //as2_BG_VoteSequence.Play();

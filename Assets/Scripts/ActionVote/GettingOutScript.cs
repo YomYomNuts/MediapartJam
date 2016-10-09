@@ -12,25 +12,34 @@ public class GettingOutScript : ActionVoteScript
     #endregion
 
     #region Private Attributes
+    private bool _IsActivate;
     #endregion
 
     protected override void LaunchAction()
     {
-        _ObjectCollide.GetComponent<ObjectActionScript>().Use();
         if (_Character.CurrentAction == null)
         {
+            GameObject go = GetClosest();
+            if (go != null)
+                go.GetComponent<ObjectActionScript>().Use();
             ChooseVoteScript.Instance.ShowPancarte(this);
         }
     }
 
     public override void ValidateAction()
     {
-
+        //_IsActivate = true;
+        GameObject go = GetClosest();
+        if (go != null)
+            go.GetComponent<ObjectActionScript>().UnUse();
     }
 
-    public override void CancelAction()
+    public override void EndAction()
     {
-
+        _IsActivate = false;
+        GameObject go = GetClosest();
+        if (go != null)
+            go.GetComponent<ObjectActionScript>().UnUse();
     }
 
     public override void DisplayAction()
@@ -40,7 +49,9 @@ public class GettingOutScript : ActionVoteScript
         _PositionAction.SetActive(true);
         _PositionAction.GetComponent<Text>().text = _KeyActionLoc;
         _PositionCharacterReceiver.SetActive(true);
-        _PositionCharacterReceiver.GetComponent<Image>().sprite = _ObjectCollide.transform.parent.GetComponent<CharacterScript>()._Face;
+        GameObject go = GetClosest();
+        if (go != null)
+            _PositionCharacterReceiver.GetComponent<Image>().sprite = go.transform.parent.GetComponent<CharacterScript>()._Face;
     }
 
     public override bool AleatoirePondere()

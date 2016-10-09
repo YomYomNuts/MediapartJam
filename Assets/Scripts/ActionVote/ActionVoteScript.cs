@@ -2,10 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public abstract class ActionVoteScript : MonoBehaviour
+public abstract class ActionVoteScript : ActionScript
 {
     #region Public Attributes
-    public Const.LAYER_ACTION_VOTE _LayerObjectAction;
     public string _KeyActionLoc;
     public GameObject _PositionOwner;
     public GameObject _PositionAction;
@@ -13,62 +12,33 @@ public abstract class ActionVoteScript : MonoBehaviour
     #endregion
 
     #region Protected Attributes
-    protected CharacterScript _Character;
-    protected GameObject _ObjectCollide;
     #endregion
 
     #region Private Attributes
-    private bool _CanBeExecute;
     #endregion
 
-    void Start()
+    protected override void Update()
     {
-        _Character = this.GetComponent<CharacterScript>();
-        _ObjectCollide = null;
-        _CanBeExecute = false;
-    }
-
-    void Update()
-    {
+        base.Update();
         if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
         {
-            if (_CanBeExecute && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
-                LaunchAction();
-            else
+            GameObject go = GetClosest();
+            if (go != null)
             {
-                // Add sound fail action
+                if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
+                    LaunchAction();
+                else
+                {
+                    // Add sound fail action
+                }
             }
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D parCollider)
-    {
-        OnTriggerStay2D(parCollider);
-    }
-    void OnTriggerStay2D(Collider2D parCollider)
-    {
-        if (parCollider.gameObject.layer == (int)_LayerObjectAction)
-        {
-            _ObjectCollide = parCollider.gameObject;
-            ObjectActionVoteScript oavs = parCollider.GetComponent<ObjectActionVoteScript>();
-            _CanBeExecute = false;
-            if (oavs)
-                _CanBeExecute = oavs.CanBeUse();
-        }
-    }
-    void OnTriggerExit2D(Collider2D parCollider)
-    {
-        if (parCollider.gameObject.layer == (int)_LayerObjectAction)
-        {
-            _CanBeExecute = false;
-            _ObjectCollide = null;
         }
     }
 
 
     protected abstract void LaunchAction();
     public abstract void ValidateAction();
-    public abstract void CancelAction();
+    public abstract void EndAction();
     public abstract void DisplayAction();
     public abstract bool AleatoirePondere();
 }

@@ -1,73 +1,72 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PickerScript : MonoBehaviour
+public class PickerScript : ActionScript
 {
     #region Public Attributes
-    public Const.LAYER_ACTION_VOTE _LayerObjectAction;
     public Transform _OffsetObject;
     #endregion
 
     #region Protected Attributes
     #endregion
 
-    #region Private Attributes
-    private CharacterScript _Character;
-    private GameObject _ObjectCollide;
+    #region Prisvate Attributes
     private GameObject _ObjectPick;
     private GameObject _ZoneUsePick;
-    private bool _CanBeExecute;
     private bool _CanLaunchAction;
     #endregion
 
-    void Start()
+    protected override void Start()
     {
-        _Character = this.GetComponent<CharacterScript>();
-        _ObjectCollide = null;
+        base.Start();
         _ObjectPick = null;
         _ZoneUsePick = null;
-        _CanBeExecute = false;
         _CanLaunchAction = false;
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Input.GetButtonDown("Fire1_" + _Character._IDJoystick))
         {
-            if (_ObjectPick != null)
+            GameObject go = GetClosest();
+            if (go != null)
             {
-                if (_CanBeExecute && _ObjectCollide != _ObjectPick)
+                if (_ObjectPick != null)
                 {
-                    _ObjectPick.GetComponent<Collider2D>().enabled = true;
-                    _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
-                    _ObjectPick = _ObjectCollide;
-                    _ObjectPick.GetComponent<ObjectActionPickScript>().Use();
-                    _ObjectPick.GetComponent<Collider2D>().enabled = false;
-                    _CanLaunchAction = false;
+                    if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && go != _ObjectPick)
+                    {
+                        _ObjectPick.GetComponent<Collider2D>().enabled = true;
+                        _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
+                        _ObjectPick = go;
+                        _ObjectPick.GetComponent<ObjectActionPickScript>().Use();
+                        _ObjectPick.GetComponent<Collider2D>().enabled = false;
+                        _CanLaunchAction = false;
+                    }
+                    else
+                    {
+                        if (_CanLaunchAction)
+                            _ObjectPick.GetComponent<ObjectActionPickScript>().LaunchAction(_Character, _ZoneUsePick);
+                        else
+                        {
+                            // Add sound fail action
+                        }
+                    }
                 }
                 else
                 {
-                    if (_CanLaunchAction)
-                        _ObjectPick.GetComponent<ObjectActionPickScript>().LaunchAction(_Character, _ZoneUsePick);
+                    if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction)
+                    {
+                        _ObjectPick = go;
+                        _ObjectPick.GetComponent<ObjectActionPickScript>().Use();
+                        _ObjectPick.GetComponent<Collider2D>().enabled = false;
+                        _CanLaunchAction = false;
+                        _ZoneUsePick = null;
+                    }
                     else
                     {
                         // Add sound fail action
                     }
-                }
-            }
-            else
-            {
-                if (_CanBeExecute)
-                {
-                    _ObjectPick = _ObjectCollide;
-                    _ObjectPick.GetComponent<ObjectActionPickScript>().Use();
-                    _ObjectPick.GetComponent<Collider2D>().enabled = false;
-                    _CanLaunchAction = false;
-                    _ZoneUsePick = null;
-                }
-                else
-                {
-                    // Add sound fail action
                 }
             }
         }
@@ -86,33 +85,18 @@ public class PickerScript : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D parCollider)
+    protected override void OnTriggerStay2D(Collider2D parCollider)
     {
-        OnTriggerStay2D(parCollider);
-    }
-    void OnTriggerStay2D(Collider2D parCollider)
-    {
-        if (parCollider.gameObject.layer == (int)_LayerObjectAction)
-        {
-            _ObjectCollide = parCollider.gameObject;
-            ObjectActionPickScript oavs = parCollider.GetComponent<ObjectActionPickScript>();
-            _CanBeExecute = false;
-            if (oavs)
-                _CanBeExecute = oavs.CanBeUse();
-        }
+        base.OnTriggerStay2D(parCollider);
         if (_ObjectPick != null && parCollider.gameObject.layer == (int)_ObjectPick.GetComponent<ObjectActionPickScript>()._LayerZone)
         {
             _CanLaunchAction = true;
             _ZoneUsePick = parCollider.gameObject;
         }
     }
-    void OnTriggerExit2D(Collider2D parCollider)
+    protected override void OnTriggerExit2D(Collider2D parCollider)
     {
-        if (parCollider.gameObject.layer == (int)_LayerObjectAction)
-        {
-            _CanBeExecute = false;
-            _ObjectCollide = null;
-        }
+        base.OnTriggerExit2D(parCollider);
         if (_ObjectPick != null && parCollider.gameObject.layer == (int)_ObjectPick.GetComponent<ObjectActionPickScript>()._LayerZone)
         {
             _CanLaunchAction = false;

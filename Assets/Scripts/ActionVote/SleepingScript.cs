@@ -26,7 +26,7 @@ public class SleepingScript : ActionVoteScript
         base.Update();
         if (_IsActivate)
         {
-            _Character.GetComponent<HungryScript>().AddTimer(_ValueAddByAction);
+            _Character.GetComponent<TiredScript>().AddTimer(_ValueAddByAction);
             if (true) // Condition audio
                 EndAction();
         }

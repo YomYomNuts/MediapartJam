@@ -20,6 +20,7 @@ public class FishSchoolScript : MonoBehaviour
 	
 	void Update ()
     {
-        transform.Translate(-fishSpeed * Time.deltaTime, 0, 0);
+        if (!GameScript.Instance.IsGamePause())
+            transform.Translate(-fishSpeed * Time.deltaTime, 0, 0);
 	}
 }

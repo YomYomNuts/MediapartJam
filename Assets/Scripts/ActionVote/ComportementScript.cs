@@ -8,6 +8,7 @@ public abstract class ComportementScript : MonoBehaviour
     #endregion
 
     #region Protected Attributes
+    protected CharacterScript _Character;
     protected float _CurrentTimer;
     #endregion
 
@@ -16,12 +17,14 @@ public abstract class ComportementScript : MonoBehaviour
 
     protected virtual void Start()
     {
+        _Character = this.GetComponent<CharacterScript>();
         _CurrentTimer = Random.Range(_Timer / 2.0f, _Timer);
     }
 	
 	protected virtual void Update()
     {
-        AddTimer(-Time.deltaTime);
+        if (!GameScript.Instance.IsGamePause())
+            AddTimer(-Time.deltaTime);
     }
 
     public void AddTimer(float parValue)

@@ -20,6 +20,7 @@ public class RockScript : MonoBehaviour
 	
 	void Update ()
     {
-        transform.Translate(-speed * Time.deltaTime, 0, 0);
+        if (!GameScript.Instance.IsGamePause())
+            transform.Translate(-speed * Time.deltaTime, 0, 0);
 	}
 }

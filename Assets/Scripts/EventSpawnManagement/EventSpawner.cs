@@ -54,7 +54,8 @@ public class EventSpawner : MonoBehaviour
         {
             while (timerFish > Mathf.Epsilon)
             {
-                timerFish -= Time.deltaTime;
+                if (!GameScript.Instance.IsGamePause())
+                    timerFish -= Time.deltaTime;
 
                 yield return null;
             }
@@ -85,7 +86,8 @@ public class EventSpawner : MonoBehaviour
         {
             while (timerRock > Mathf.Epsilon)
             {
-                timerRock -= Time.deltaTime;
+                if (!GameScript.Instance.IsGamePause())
+                    timerRock -= Time.deltaTime;
 
                 yield return null;
             }

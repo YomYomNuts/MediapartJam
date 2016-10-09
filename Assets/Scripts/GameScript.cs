@@ -47,6 +47,11 @@ public class GameScript : MonoBehaviour
         return true;
     }
 
+    public bool IsGamePause()
+    {
+        return !PlayerCanAction;
+    }
+
     void Start()
     {
     }

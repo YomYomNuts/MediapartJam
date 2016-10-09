@@ -213,6 +213,9 @@ public class ChooseVoteScript : MonoBehaviour
                     if (_CurrentTimerForVote >= _TimerForResult)
                     {
                         HidePancarte();
+
+                        as2_BG_VoteSequence.Stop();
+
                         if (_Result)
                             _CurrentActionVote.ValidateAction();
                         else
@@ -242,7 +245,8 @@ public class ChooseVoteScript : MonoBehaviour
             vccs.SetActive(true);
 
         // Launch VoteSequenceLoop
-        //as2_BG_VoteSequence.Play();
+        as2_BG_VoteSequence.Stop();
+        as2_BG_VoteSequence.Play();
 
         // Play VoteSequence first SFX
         as3_SFX_VoteSequence.clip = ac_SFX_VoteSequence01;

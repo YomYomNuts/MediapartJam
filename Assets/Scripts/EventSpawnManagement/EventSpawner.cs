@@ -8,21 +8,28 @@ public class EventSpawner : MonoBehaviour
 
     public GameObject pf_fish;
     public GameObject pf_rock;
+    public GameObject pf_kraken;
 
     public GameObject spawnPoint01;
     public GameObject spawnPoint02;
     public GameObject spawnPoint03;
 
+    public AudioSource as4_SFX_Rock;
+    public AudioSource as5_SFX_Fish;
+
+    public float cdIniForFish;
     public float cdMinForFish;
     public float cdMaxForFish;
     public float cdModPerPlayerForFish;
     public float cdModPerStepForFish;
 
+    public float cdIniForRock;
     public float cdMinForRock;
     public float cdMaxForRock;
     public float cdModPerPlayerForRock;
     public float cdModPerStepForRock;
 
+    public float cdIniForBreak;
     public float cdMinForBreak;
     public float cdMaxForBreak;
     public float cdModPerPlayerForBreak;
@@ -40,9 +47,9 @@ public class EventSpawner : MonoBehaviour
 
     void Start ()
     {
-        timerFish = cdMinForFish;
-        timerRock = cdMinForRock;
-        timerBreak = cdMinForBreak;
+        timerFish = cdIniForFish;
+        timerRock = cdIniForRock;
+        timerBreak = cdIniForBreak;
 
         StartCoroutine(FishGenerator());
         StartCoroutine(RockGenerator());
@@ -59,6 +66,9 @@ public class EventSpawner : MonoBehaviour
 
                 yield return null;
             }
+
+            as5_SFX_Fish.Stop();
+            //as5_SFX_Fish.Play();
 
             SpawnFish();
 
@@ -92,6 +102,9 @@ public class EventSpawner : MonoBehaviour
                 yield return null;
             }
 
+            as4_SFX_Rock.Stop();
+            as4_SFX_Rock.Play();
+
             SpawnRock();
 
             timerRock = Random.Range(cdMinForRock, cdMaxForRock);
@@ -100,6 +113,23 @@ public class EventSpawner : MonoBehaviour
 
     void SpawnRock()
     {
-        Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
+        switch (Random.Range(0, 4))
+        {
+            case 0:
+                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
+                break;
+
+            case 1:
+                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
+                break;
+
+            case 2:
+                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
+                break;
+
+            case 3:
+                Instantiate(pf_kraken, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
+                break;
+        }
     }
 }

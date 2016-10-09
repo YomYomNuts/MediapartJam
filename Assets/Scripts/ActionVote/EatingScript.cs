@@ -13,6 +13,7 @@ public class EatingScript : ActionVoteScript
     #endregion
 
     #region Private Attributes
+    private FishScript _FishScript;
     private bool _IsActivate;
     private float _StartingTimer;
     #endregion
@@ -20,6 +21,7 @@ public class EatingScript : ActionVoteScript
     protected override void Start()
     {
         base.Start();
+        _FishScript = GameScript.Instance.GetComponent<FishScript>();
     }
 
     protected override void Update()
@@ -58,6 +60,7 @@ public class EatingScript : ActionVoteScript
         _IsActivate = false;
         _Character._BlockMovement = false;
         _Character._Animator.SetBool("Eating", false);
+        _FishScript.AddStock((int)-_ValueAddByAction);
         _Character.GetComponent<HungryScript>().SetCurrentTimer(_StartingTimer + _ValueAddByAction);
         GameObject go = GetClosest();
         if (go != null)

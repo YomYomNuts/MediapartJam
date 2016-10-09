@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class FishScript : MonoBehaviour
 {
     #region Public Attributes
     public int _MaxStock;
+    public Text _Stock;
     #endregion
 
     #region Protected Attributes
@@ -26,5 +28,7 @@ public class FishScript : MonoBehaviour
     public void AddStock(int parValue)
     {
         _CurrentStock = (int)Mathf.Clamp(_CurrentStock + parValue, 0.0f, _MaxStock);
+        if (_Stock)
+            _Stock.text = _CurrentStock.ToString();
     }
 }

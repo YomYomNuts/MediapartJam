@@ -57,7 +57,6 @@ public class FishingScript : ObjectActionPickScript
             _CharacterApplyAction = parCharacter;
             _CharacterApplyAction._BlockMovement = true;
             _CharacterApplyAction._Animator.SetBool("Fishing", true);
-            _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
         }
         else
         {

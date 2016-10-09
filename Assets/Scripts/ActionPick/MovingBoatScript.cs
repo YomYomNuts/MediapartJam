@@ -29,7 +29,12 @@ public class MovingBoatScript : ObjectActionPickScript
     {
         MovingBoatZoneScript mbzs = parZoneAction.GetComponent<MovingBoatZoneScript>();
         if (mbzs)
+        {
+            parCharacter._AudioSource.Stop();
+            parCharacter._AudioSource.clip = _AudioClipAction;
+            parCharacter._AudioSource.Play();
             StartCoroutine(MoveBoat(mbzs._Direction * _Offset));
+        }
     }
 
     IEnumerator MoveBoat(Vector3 parDirection)

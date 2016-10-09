@@ -44,6 +44,7 @@ public class ChooseVoteScript : MonoBehaviour
     private CharacterScript _CharacterSelect;
     private Const.TYPE_VOTE _ResultType;
     private bool _Result;
+    private AudioSource _AudioSource;
     #endregion
 
     #region Static Attributs

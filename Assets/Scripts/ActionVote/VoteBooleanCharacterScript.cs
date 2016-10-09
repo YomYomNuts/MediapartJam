@@ -11,6 +11,7 @@ public class VoteBooleanCharacterScript : MonoBehaviour
     public Sprite _SpriteWait;
     public Sprite _SpriteYes;
     public Sprite _SpriteNo;
+    public AudioClip _AudioClip;
     #endregion
 
     #region Protected Attributes
@@ -19,11 +20,13 @@ public class VoteBooleanCharacterScript : MonoBehaviour
     #region Private Attributes
     private CharacterScript _Character;
     private Const.BOOLEAN_VOTE _CurrentChoice;
+    private AudioSource _AudioSource;
     #endregion
 
     void Start()
     {
         _Character = this.GetComponent<CharacterScript>();
+        _AudioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -39,6 +42,12 @@ public class VoteBooleanCharacterScript : MonoBehaviour
             {
                 _CurrentChoice = Const.BOOLEAN_VOTE.NO;
                 _EmplacementBulle.sprite = _SpriteNo;
+            }
+            if (_CurrentChoice != Const.BOOLEAN_VOTE.ABSTENTION)
+            {
+                _AudioSource.Stop();
+                _AudioSource.clip = _AudioClip;
+                _AudioSource.Play();
             }
         }
     }

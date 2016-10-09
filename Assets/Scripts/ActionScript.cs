@@ -11,6 +11,7 @@ public class ActionScript : MonoBehaviour
     #region Protected Attributes
     protected CharacterScript _Character;
     protected List<GameObject> _ObjectsCollide;
+    protected AudioSource _AudioSource;
     #endregion
 
     #region Private Attributes
@@ -20,6 +21,7 @@ public class ActionScript : MonoBehaviour
     {
         _Character = this.GetComponent<CharacterScript>();
         _ObjectsCollide = new List<GameObject>();
+        _AudioSource = this.GetComponent<AudioSource>();
     }
 
     protected virtual void Update()

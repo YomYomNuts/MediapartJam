@@ -15,6 +15,7 @@ public class VoteChoiceCharacterScript : MonoBehaviour
     public Sprite _SpriteAleatoire;
     public Sprite _SpriteAleatoirePondere;
     public Sprite _SpriteAleatoireElective;
+    public AudioClip _AudioClip;
     #endregion
 
     #region Protected Attributes
@@ -23,11 +24,13 @@ public class VoteChoiceCharacterScript : MonoBehaviour
     #region Private Attributes
     private CharacterScript _Character;
     private Const.TYPE_VOTE _CurrentChoice;
+    private AudioSource _AudioSource;
     #endregion
 
     void Start ()
     {
         _Character = this.GetComponent<CharacterScript>();
+        _AudioSource = this.GetComponent<AudioSource>();
     }
 	
 	void Update ()
@@ -53,6 +56,12 @@ public class VoteChoiceCharacterScript : MonoBehaviour
             {
                 _CurrentChoice = Const.TYPE_VOTE.ALEATOIRE_ELECTIVE;
                 _EmplacementBulle.sprite = _SpriteAleatoireElective;
+            }
+            if (_CurrentChoice != Const.TYPE_VOTE.ABSTENTION)
+            {
+                _AudioSource.Stop();
+                _AudioSource.clip = _AudioClip;
+                _AudioSource.Play();
             }
         }
     }

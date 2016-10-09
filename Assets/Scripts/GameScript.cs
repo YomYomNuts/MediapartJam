@@ -4,6 +4,7 @@ using System.Collections;
 public class GameScript : MonoBehaviour
 {
     #region Public Attributes
+    public AudioClip _AudioClipError;
     #endregion
 
     #region Protected Attributes

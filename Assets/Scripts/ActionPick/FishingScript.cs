@@ -38,7 +38,16 @@ public class FishingScript : ObjectActionPickScript
         }
         if (canLaunchAction)
         {
+            parCharacter._AudioSource.Stop();
+            parCharacter._AudioSource.clip = _AudioClipAction;
+            parCharacter._AudioSource.Play();
             _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
+        }
+        else
+        {
+            parCharacter._AudioSource.Stop();
+            parCharacter._AudioSource.clip = GameScript.Instance._AudioClipError;
+            parCharacter._AudioSource.Play();
         }
     }
 }

@@ -7,6 +7,8 @@ public class CharacterScript : MonoBehaviour
     public int _IDJoystick;
     public Sprite _Face;
     public float _MaxSpeed;
+    [HideInInspector]
+    public AudioSource _AudioSource;
     #endregion
 
     #region Protected Attributes
@@ -31,6 +33,7 @@ public class CharacterScript : MonoBehaviour
     {
         _Rigidbody2D = this.GetComponent<Rigidbody2D>();
         _Animator = this.GetComponent<Animator>();
+        _AudioSource = this.GetComponent<AudioSource>();
         _CurrentAction = null;
     }
 

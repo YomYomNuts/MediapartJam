@@ -49,7 +49,9 @@ public class PickerScript : ActionScript
                             _ObjectPick.GetComponent<ObjectActionPickScript>().LaunchAction(_Character, _ZoneUsePick);
                         else
                         {
-                            // Add sound fail action
+                            _AudioSource.Stop();
+                            _AudioSource.clip = GameScript.Instance._AudioClipError;
+                            _AudioSource.Play();
                         }
                     }
                 }
@@ -65,7 +67,9 @@ public class PickerScript : ActionScript
                     }
                     else
                     {
-                        // Add sound fail action
+                        _AudioSource.Stop();
+                        _AudioSource.clip = GameScript.Instance._AudioClipError;
+                        _AudioSource.Play();
                     }
                 }
             }
@@ -73,6 +77,9 @@ public class PickerScript : ActionScript
         else if (_ObjectPick != null && Input.GetButtonDown("Fire2_" + _Character._IDJoystick))
         {
             _ObjectPick.GetComponent<Collider2D>().enabled = true;
+            _AudioSource.Stop();
+            _AudioSource.clip = _ObjectPick.GetComponent<ObjectActionPickScript>()._AudioClipDrop;
+            _AudioSource.Play();
             _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
             _ObjectPick = null;
             _CanLaunchAction = false;

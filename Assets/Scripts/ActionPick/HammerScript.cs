@@ -25,6 +25,9 @@ public class HammerScript : ObjectActionPickScript
 
     public override void LaunchAction(CharacterScript parCharacter, GameObject parZoneAction)
     {
+        parCharacter._AudioSource.Stop();
+        parCharacter._AudioSource.clip = _AudioClipAction;
+        parCharacter._AudioSource.Play();
         BoatScript.Instance.RemoveDamage(parZoneAction);
     }
 }

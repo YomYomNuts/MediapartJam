@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public abstract class ActionVoteScript : ActionScript
 {
     #region Public Attributes
+    public AudioClip _AudioClipAction;
     public string _KeyActionLoc;
     public GameObject _PositionOwner;
     public GameObject _PositionAction;
@@ -26,10 +27,17 @@ public abstract class ActionVoteScript : ActionScript
             if (go != null)
             {
                 if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
+                {
+                    _AudioSource.Stop();
+                    _AudioSource.clip = _AudioClipAction;
+                    _AudioSource.Play();
                     LaunchAction();
+                }
                 else
                 {
-                    // Add sound fail action
+                    _AudioSource.Stop();
+                    _AudioSource.clip = GameScript.Instance._AudioClipError;
+                    _AudioSource.Play();
                 }
             }
         }

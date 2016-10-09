@@ -6,6 +6,8 @@ public class BoatScript : MonoBehaviour
 {
     #region Public Attributes
     public List<GameObject> _ListRepairZone;
+    public AudioClip _AudioClipBreak;
+    public AudioClip _AudioClipImpact;
     #endregion
 
     #region Protected Attributes
@@ -13,6 +15,7 @@ public class BoatScript : MonoBehaviour
 
     #region Private Attributes
     private List<GameObject> _CleanZones;
+    private AudioSource _AudioSource;
     #endregion
 
     #region Static Attributs
@@ -39,6 +42,7 @@ public class BoatScript : MonoBehaviour
     void Start()
     {
         _CleanZones = _ListRepairZone;
+        _AudioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -49,11 +53,11 @@ public class BoatScript : MonoBehaviour
     {
         if (parCollider.gameObject.layer == Const.LAYER_ISLAND)
         {
-            AddDamage(parCollider.gameObject);
+            AddDamage(parCollider.gameObject, true);
         }
     }
 
-    public void AddDamage(GameObject parZone)
+    public void AddDamage(GameObject parZone, bool parImpact = false)
     {
         if (_CleanZones.Count > 0)
         {
@@ -61,6 +65,9 @@ public class BoatScript : MonoBehaviour
             _CleanZones[index].SetActive(true);
             _CleanZones.RemoveAt(index);
             Destroy(parZone);
+            _AudioSource.Stop();
+            _AudioSource.clip = parImpact ? _AudioClipImpact : _AudioClipBreak;
+            _AudioSource.Play();
         }
     }
 

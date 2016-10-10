@@ -9,7 +9,7 @@ public class BoatScript : MonoBehaviour
     public AudioClip _AudioClipBreak;
     public AudioClip _AudioClipImpact;
     public Vector2 _RangeUsure;
-    public GameObject _SpriteEndBoat;
+    public List<GameObject> _SpritesEndBoat;
     public List<GameObject> _ObjectsDisable;
     #endregion
 
@@ -84,7 +84,8 @@ public class BoatScript : MonoBehaviour
             _AudioSource.Play();
             Destroy(parCollider.gameObject);
 
-            _SpriteEndBoat.SetActive(true);
+            foreach (GameObject go in _SpritesEndBoat)
+                go.SetActive(true);
             foreach (GameObject go in _ObjectsDisable)
                 go.SetActive(false);
             GameScript.Instance._IsActive = true;

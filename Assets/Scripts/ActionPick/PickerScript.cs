@@ -36,8 +36,7 @@ public class PickerScript : ActionScript
                 {
                     if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && go != _ObjectPick)
                     {
-                        _ObjectPick.GetComponent<Collider2D>().enabled = true;
-                        _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
+                        UnPick();
                         _ObjectPick = go;
                         _ObjectPick.GetComponent<ObjectActionPickScript>().Use();
                         _ObjectPick.GetComponent<Collider2D>().enabled = false;
@@ -76,12 +75,10 @@ public class PickerScript : ActionScript
         }
         else if (_ObjectPick != null && Input.GetButtonDown("Fire2_" + _Character._IDJoystick))
         {
-            _ObjectPick.GetComponent<Collider2D>().enabled = true;
             _AudioSource.Stop();
             _AudioSource.clip = _ObjectPick.GetComponent<ObjectActionPickScript>()._AudioClipDrop;
             _AudioSource.Play();
-            _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
-            _ObjectPick = null;
+            UnPick();
             _CanLaunchAction = false;
             _ZoneUsePick = null;
         }
@@ -115,5 +112,15 @@ public class PickerScript : ActionScript
     public bool IsPicking()
     {
         return _ObjectPick != null;
+    }
+
+    public void UnPick()
+    {
+        if (_ObjectPick != null)
+        {
+            _ObjectPick.GetComponent<Collider2D>().enabled = true;
+            _ObjectPick.GetComponent<ObjectActionPickScript>().UnUse();
+            _ObjectPick = null;
+        }
     }
 }

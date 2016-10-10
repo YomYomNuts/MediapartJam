@@ -24,5 +24,8 @@ public class HungryScript : ComportementScript
     {
         base.Update();
         _Slider.value = _CurrentTimer;
+
+        if (_CurrentTimer <= 0.0f)
+            _Character.Dead();
     }
 }

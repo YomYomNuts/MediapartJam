@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CharacterScript : MonoBehaviour
 {
@@ -69,5 +70,24 @@ public class CharacterScript : MonoBehaviour
         Vector3 currentScale = transform.localScale;
         currentScale.x *= -1.0f;
         transform.localScale = currentScale;
+    }
+
+    public void Dead()
+    {
+        _Rigidbody2D.velocity = new Vector2();
+        _HUDCharacter.SetActive(false);
+        GetComponent<PickerScript>().UnPick();
+        List<MonoBehaviour> scripts = new List<MonoBehaviour>(GetComponents<MonoBehaviour>());
+        foreach (MonoBehaviour mb in scripts)
+            mb.enabled = false;
+        scripts = new List<MonoBehaviour>(GetComponentsInChildren<MonoBehaviour>());
+        foreach (MonoBehaviour mb in scripts)
+            mb.enabled = false;
+        List<Collider2D> colliders = new List<Collider2D>(GetComponents<Collider2D>());
+        foreach (Collider2D collider in colliders)
+            collider.enabled = false;
+        colliders = new List<Collider2D>(GetComponentsInChildren<Collider2D>());
+        foreach (Collider2D collider in colliders)
+            collider.enabled = false;
     }
 }

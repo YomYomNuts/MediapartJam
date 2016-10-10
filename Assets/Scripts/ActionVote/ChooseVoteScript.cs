@@ -16,12 +16,17 @@ public class ChooseVoteScript : MonoBehaviour
     public float _TimerForResult;
     public List<GameObject> _ChoiceVote;
     public List<GameObject> _VoteHUD;
+    public string _TitleElective;
     public bool _CanSelectOwnCharacterElective;
     public Image _ImageCharacterElective;
     public List<GameObject> _ScreenElective;
+    public string _TitleMajorite;
     public List<GameObject> _ScreenMajorite;
     public Text _ScoreYesMajorite;
     public Text _ScoreNoMajorite;
+    public string _TitleAleatoire;
+    public string _TitleAleatoirePondere;
+    public string _TitleAbstention;
     public Text _ObjectResultVoteType;
     public Text _ObjectFinalResult;
     public AudioSource as2_BG_VoteSequence;
@@ -42,7 +47,6 @@ public class ChooseVoteScript : MonoBehaviour
     private Const.SCREEN _PreviousState;
     private float _CurrentTimerForVote;
     private CharacterScript _CharacterSelect;
-    private Const.TYPE_VOTE _ResultType;
     private bool _Result;
     private AudioSource _AudioSource;
     #endregion
@@ -118,7 +122,6 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(true);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
 
                         _TimeSlider.gameObject.SetActive(true);
                         _CurrentTimerForVote = 0.0f;
@@ -163,7 +166,6 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(true);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
                         _ImageCharacterElective.gameObject.SetActive(true);
                         _ImageCharacterElective.sprite = _CharacterSelect._Face;
 
@@ -200,7 +202,6 @@ public class ChooseVoteScript : MonoBehaviour
                             go.SetActive(false);
 
                         _ObjectResultVoteType.gameObject.SetActive(true);
-                        _ObjectResultVoteType.text = _ResultType.ToString().ToLower();
                         _ObjectFinalResult.gameObject.SetActive(true);
                         _ObjectFinalResult.text = _Result ? "Oui." : "Non.";
 
@@ -304,49 +305,58 @@ public class ChooseVoteScript : MonoBehaviour
         }
 
         var mapOrder = countVote.OrderByDescending(c => c.Value);
-        bool equality = false;
         int previousValue = -1;
-        _ResultType = Const.TYPE_VOTE.ABSTENTION;
+        List<Const.TYPE_VOTE> resultType = new List<Const.TYPE_VOTE>();
+        resultType.Add(Const.TYPE_VOTE.ABSTENTION);
         foreach (KeyValuePair<Const.TYPE_VOTE, int> pair in mapOrder)
         {
-            if (previousValue == pair.Value)
-            {
-                equality = true;
-                break;
-            }
             if (pair.Key != Const.TYPE_VOTE.ABSTENTION && pair.Value > previousValue)
             {
-                _ResultType = pair.Key;
+                if (previousValue != pair.Value)
+                    resultType.Clear();
+                resultType.Add(pair.Key);
                 previousValue = pair.Value;
             }
         }
 
-        if (!equality)
+        if (resultType.Count > 1)
         {
-            switch (_ResultType)
+            while (resultType.Count > 1)
             {
-                case Const.TYPE_VOTE.ABSTENTION:
-                    _Result = Abstention();
-                    _State = Const.SCREEN.RESULT;
-                    break;
-                case Const.TYPE_VOTE.MAJORITE:
-                    ActiveMajorite();
-                    _State = Const.SCREEN.CHOICE_MAJORITE;
-                    break;
-                case Const.TYPE_VOTE.ALEATOIRE:
-                    _Result = Aleatoire();
-                    _State = Const.SCREEN.RESULT;
-                    break;
-                case Const.TYPE_VOTE.ALEATOIRE_PONDERE:
-                    _Result = _CurrentActionVote.AleatoirePondere();
-                    _State = Const.SCREEN.RESULT;
-                    break;
-                case Const.TYPE_VOTE.ALEATOIRE_ELECTIVE:
-                    AleatoireElective();
-                    _State = Const.SCREEN.CHOICE_ELECTIF;
-                    break;
+                int index = UnityEngine.Random.Range(0, resultType.Count);
+                resultType.RemoveAt(index);
             }
         }
+        string title = _TitleAbstention;
+        switch (resultType[0])
+        {
+            case Const.TYPE_VOTE.ABSTENTION:
+                title = _TitleAbstention;
+                _Result = Abstention();
+                _State = Const.SCREEN.RESULT;
+                break;
+            case Const.TYPE_VOTE.MAJORITE:
+                title = _TitleMajorite;
+                ActiveMajorite();
+                _State = Const.SCREEN.CHOICE_MAJORITE;
+                break;
+            case Const.TYPE_VOTE.ALEATOIRE:
+                title = _TitleAleatoire;
+                _Result = Aleatoire();
+                _State = Const.SCREEN.RESULT;
+                break;
+            case Const.TYPE_VOTE.ALEATOIRE_PONDERE:
+                title = _TitleAleatoirePondere;
+                _Result = _CurrentActionVote.AleatoirePondere();
+                _State = Const.SCREEN.RESULT;
+                break;
+            case Const.TYPE_VOTE.ALEATOIRE_ELECTIVE:
+                title = _TitleElective;
+                AleatoireElective();
+                _State = Const.SCREEN.CHOICE_ELECTIF;
+                break;
+        }
+        _ObjectResultVoteType.text = title;
     }
 
     bool Abstention()

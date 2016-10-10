@@ -46,10 +46,9 @@ public class GettingOutScript : ActionVoteScript
         if (go != null)
         {
             CharacterScript ch = go.GetComponentInParent<CharacterScript>();
-            ch._HUDCharacter.SetActive(false);
             ch.gameObject.SetActive(false);
             ch.gameObject.transform.position = new Vector3(-100000, -100000, -100000);
-            go.GetComponent<Collider2D>().enabled = false;
+            ch.Dead();
             _ObjectsCollide.Remove(go);
         }
     }

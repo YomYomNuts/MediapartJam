@@ -107,9 +107,10 @@ public class EventSpawner : MonoBehaviour
             as4_SFX_Rock.Stop();
             as4_SFX_Rock.Play();
 
-            SpawnRock();
+            GameObject rock = SpawnRock();
 
-            warningPanel.SetActive(true);
+            warningPanel.transform.parent.gameObject.SetActive(true);
+            warningPanel.GetComponent<SpriteRenderer>().sprite = rock.GetComponent<SpriteRenderer>().sprite;
 
             Invoke("HideWarningPanel", 12.0f);
 
@@ -122,25 +123,22 @@ public class EventSpawner : MonoBehaviour
         warningPanel.SetActive(false);
     }
 
-    void SpawnRock()
+    GameObject SpawnRock()
     {
         switch (Random.Range(0, 4))
         {
             case 0:
-                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
-                break;
+                return Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform) as GameObject;
 
             case 1:
-                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
-                break;
+                return Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform) as GameObject;
 
             case 2:
-                Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
-                break;
+                return Instantiate(pf_rock, spawnPoint02.transform.position, Quaternion.identity, _parent.transform) as GameObject;
 
             case 3:
-                Instantiate(pf_kraken, spawnPoint02.transform.position, Quaternion.identity, _parent.transform);
-                break;
+                return Instantiate(pf_kraken, spawnPoint02.transform.position, Quaternion.identity, _parent.transform) as GameObject;
         }
+        return null;
     }
 }

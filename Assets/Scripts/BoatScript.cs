@@ -88,7 +88,6 @@ public class BoatScript : MonoBehaviour
                 go.SetActive(true);
             foreach (GameObject go in _ObjectsDisable)
                 go.SetActive(false);
-            GameScript.Instance._IsActive = true;
         }
     }
 

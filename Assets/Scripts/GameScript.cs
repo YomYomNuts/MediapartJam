@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameScript : MonoBehaviour
 {
     #region Public Attributes
     public AudioClip _AudioClipError;
-    public float _TimerEndScreen;
-    [HideInInspector]
-    public bool _IsActive;
+    public Slider _SliderGame;
+    public float _TimerGame;
     #endregion
 
     #region Protected Attributes
@@ -61,30 +61,17 @@ public class GameScript : MonoBehaviour
     void Start()
     {
         _CurrentTimer = 0.0f;
-        _IsActive = false;
+        _SliderGame.value = 0.0f;
+        _SliderGame.maxValue = _TimerGame;
     }
 	
 	void Update()
     {
-        if (_IsActive)
+        _CurrentTimer += Time.deltaTime;
+        _SliderGame.value = _CurrentTimer;
+        if (_CurrentTimer > _TimerGame)
         {
-            _CurrentTimer += Time.deltaTime;
-            if (_CurrentTimer > _TimerEndScreen)
-            {
-                SceneManager.LoadScene("End");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("Splash");
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SceneManager.LoadScene("Game");
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SceneManager.LoadScene("Start");
+            SceneManager.LoadScene("End");
         }
     }
 }

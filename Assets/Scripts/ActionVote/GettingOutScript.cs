@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GettingOutScript : ActionVoteScript
 {
     #region Public Attributes
+    public GameObject _Kick;
+    public float _TimerBlock;
     #endregion
 
     #region Protected Attributes
@@ -13,6 +15,7 @@ public class GettingOutScript : ActionVoteScript
 
     #region Private Attributes
     private bool _IsActivate;
+    private float _CurrentTimer;
     #endregion
 
     protected override void Update()
@@ -20,7 +23,8 @@ public class GettingOutScript : ActionVoteScript
         base.Update();
         if (_IsActivate)
         {
-            if (!_Character._AudioSource.isPlaying)
+            _CurrentTimer += Time.deltaTime;
+            if (!_Character._AudioSource.isPlaying || _CurrentTimer > _TimerBlock)
                 EndAction();
         }
     }
@@ -41,6 +45,8 @@ public class GettingOutScript : ActionVoteScript
         base.ValidateAction();
         _IsActivate = true;
         _Character._Animator.SetBool("Kicking", true);
+        _Kick.SetActive(true);
+        _CurrentTimer = 0.0f;
         //GameScript.Instance.PlayerCanAction = false;
         GameObject go = GetClosest();
         if (go != null)
@@ -57,6 +63,7 @@ public class GettingOutScript : ActionVoteScript
     {
         _IsActivate = false;
         _Character._Animator.SetBool("Kicking", false);
+        _Kick.SetActive(false);
         //GameScript.Instance.PlayerCanAction = true;
         GameObject go = GetClosest();
         if (go != null)

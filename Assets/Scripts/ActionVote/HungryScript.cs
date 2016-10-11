@@ -26,6 +26,9 @@ public class HungryScript : ComportementScript
         _Slider.value = _CurrentTimer;
 
         if (_CurrentTimer <= 0.0f)
+        {
+            _Character._Animator.SetBool("Dead", true);
             _Character.Dead();
+        }
     }
 }

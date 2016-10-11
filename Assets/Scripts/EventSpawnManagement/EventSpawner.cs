@@ -120,7 +120,7 @@ public class EventSpawner : MonoBehaviour
 
     void HideWarningPanel()
     {
-        warningPanel.SetActive(false);
+        warningPanel.transform.parent.gameObject.SetActive(false);
     }
 
     GameObject SpawnRock()

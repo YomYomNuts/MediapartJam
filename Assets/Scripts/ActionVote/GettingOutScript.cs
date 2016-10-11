@@ -8,6 +8,7 @@ public class GettingOutScript : ActionVoteScript
     #region Public Attributes
     public GameObject _Kick;
     public float _TimerBlock;
+    public Transform _PositionNoyed;
     #endregion
 
     #region Protected Attributes
@@ -16,6 +17,7 @@ public class GettingOutScript : ActionVoteScript
     #region Private Attributes
     private bool _IsActivate;
     private float _CurrentTimer;
+    private CharacterScript _CharacterReceiver;
     #endregion
 
     protected override void Update()
@@ -47,14 +49,15 @@ public class GettingOutScript : ActionVoteScript
         _Character._Animator.SetBool("Kicking", true);
         _Kick.SetActive(true);
         _CurrentTimer = 0.0f;
-        //GameScript.Instance.PlayerCanAction = false;
+        GameScript.Instance.PlayerCanAction = false;
         GameObject go = GetClosest();
         if (go != null)
         {
             CharacterScript ch = go.GetComponentInParent<CharacterScript>();
-            ch.gameObject.SetActive(false);
-            ch.gameObject.transform.position = new Vector3(-100000, -100000, -100000);
+            ch.gameObject.transform.position = new Vector3(ch.gameObject.transform.position.x, _PositionNoyed.position.y, ch.gameObject.transform.position.z);
+            ch._Animator.SetBool("Noyed", true);
             ch.Dead();
+            _CharacterReceiver = ch;
             _ObjectsCollide.Remove(go);
         }
     }
@@ -64,10 +67,19 @@ public class GettingOutScript : ActionVoteScript
         _IsActivate = false;
         _Character._Animator.SetBool("Kicking", false);
         _Kick.SetActive(false);
-        //GameScript.Instance.PlayerCanAction = true;
-        GameObject go = GetClosest();
-        if (go != null)
-            go.GetComponent<ObjectActionScript>().UnUse();
+        GameScript.Instance.PlayerCanAction = true;
+        if (_CharacterReceiver != null)
+        {
+            _CharacterReceiver.GetComponent<NoyedScript>().enabled = true;
+            _CharacterReceiver.GetComponent<PickerScript>().UnPick();
+            _CharacterReceiver = null;
+        }
+        else
+        {
+            GameObject go = GetClosest();
+            if (go != null)
+                go.GetComponent<ObjectActionScript>().UnUse();
+        }
     }
 
     public override void DisplayAction()

@@ -15,6 +15,8 @@ public class CharacterScript : MonoBehaviour
     public bool _BlockMovement;
     [HideInInspector]
     public Animator _Animator;
+    [HideInInspector]
+    public bool _IsDead;
     #endregion
 
     #region Protected Attributes
@@ -41,6 +43,7 @@ public class CharacterScript : MonoBehaviour
         _AudioSource = this.GetComponent<AudioSource>();
         _CurrentAction = null;
         _BlockMovement = false;
+        _IsDead = false;
     }
 
 	void FixedUpdate()
@@ -74,6 +77,7 @@ public class CharacterScript : MonoBehaviour
 
     public void Dead()
     {
+        _IsDead = true;
         _Rigidbody2D.velocity = new Vector2();
         _HUDCharacter.SetActive(false);
         GetComponent<PickerScript>().UnPick();

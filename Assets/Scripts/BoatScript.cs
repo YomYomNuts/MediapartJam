@@ -11,6 +11,7 @@ public class BoatScript : MonoBehaviour
     public Vector2 _RangeUsure;
     public List<GameObject> _SpritesEndBoat;
     public List<GameObject> _ObjectsDisable;
+    public GameObject _FeedBackCrack;
     #endregion
 
     #region Protected Attributes
@@ -73,10 +74,17 @@ public class BoatScript : MonoBehaviour
                 _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
             }
 
-            foreach (GameObject go in _ListRepairZone)
+            if (!GameScript.Instance.IsGameEnd())
             {
-                if (go.activeSelf)
-                    go.GetComponent<Animator>().SetBool("Critic", (_CleanZones.Count == 0));
+                foreach (GameObject go in _ListRepairZone)
+                {
+                    if (go.activeSelf)
+                    {
+                        Animator animator = go.GetComponent<Animator>();
+                        if (animator)
+                            animator.SetBool("Critic", (_CleanZones.Count == 0));
+                    }
+                }
             }
         }
     }
@@ -89,11 +97,29 @@ public class BoatScript : MonoBehaviour
             _AudioSource.clip = _AudioClipImpact;
             _AudioSource.Play();
             Destroy(parCollider.gameObject);
+            if (_FeedBackCrack != null)
+            {
+                _FeedBackCrack.SetActive(false);
+                _FeedBackCrack.SetActive(true);
+            }
 
-            foreach (GameObject go in _SpritesEndBoat)
-                go.SetActive(true);
-            foreach (GameObject go in _ObjectsDisable)
-                go.SetActive(false);
+            if (_CleanZones.Count > 0)
+            {
+                while (_CleanZones.Count > 0)
+                {
+                    int index = Random.Range(0, _CleanZones.Count);
+                    _CleanZones[index].SetActive(true);
+                    _CleanZones.RemoveAt(index);
+                }
+            }
+            else
+            {
+                StartCoroutine(GameScript.Instance.LaunchEndLoose());
+                foreach (GameObject go in _SpritesEndBoat)
+                    go.SetActive(true);
+                foreach (GameObject go in _ObjectsDisable)
+                    go.SetActive(false);
+            }
         }
     }
 

@@ -45,7 +45,7 @@ public class CharacterScript : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (GameScript.Instance.PlayerCanAction /*&& !_BlockMovement*/)
+        if (GameScript.Instance.PlayerCanAction && !_BlockMovement)
         {
             float moveRightLeft = Input.GetAxis("Horizontal_" + _IDJoystick);
             float moveUpDown = Input.GetAxis("Vertical_" + _IDJoystick);
@@ -77,6 +77,7 @@ public class CharacterScript : MonoBehaviour
         _Rigidbody2D.velocity = new Vector2();
         _HUDCharacter.SetActive(false);
         GetComponent<PickerScript>().UnPick();
+        GetComponent<TiredScript>()._ZZZ.SetActive(false); ;
         List<MonoBehaviour> scripts = new List<MonoBehaviour>(GetComponents<MonoBehaviour>());
         foreach (MonoBehaviour mb in scripts)
             mb.enabled = false;

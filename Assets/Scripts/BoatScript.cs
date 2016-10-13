@@ -46,7 +46,7 @@ public class BoatScript : MonoBehaviour
 
     void Start()
     {
-        _CleanZones = _ListRepairZone;
+        _CleanZones = new List<GameObject>(_ListRepairZone);
         _AudioSource = this.GetComponent<AudioSource>();
         _CurrentTimerUsure = 0.0f;
         _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
@@ -71,6 +71,12 @@ public class BoatScript : MonoBehaviour
 
                 _CurrentTimerUsure = 0.0f;
                 _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
+            }
+
+            foreach (GameObject go in _ListRepairZone)
+            {
+                if (go.activeSelf)
+                    go.GetComponent<Animator>().SetBool("Critic", (_CleanZones.Count == 0));
             }
         }
     }

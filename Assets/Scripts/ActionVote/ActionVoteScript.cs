@@ -26,15 +26,20 @@ public abstract class ActionVoteScript : ActionScript
             GameObject go = GetClosest();
             if (go != null)
             {
-                if (go.GetComponent<ObjectActionScript>().CanBeUse() && GameScript.Instance.PlayerCanAction && !_Character.GetComponent<PickerScript>().IsPicking())
+                ObjectActionScript oas = go.GetComponent<ObjectActionScript>();
+                PickerScript ps = _Character.GetComponent<PickerScript>();
+                if (GameScript.Instance.PlayerCanDoAction)
                 {
-                    LaunchAction();
-                }
-                else
-                {
-                    _AudioSource.Stop();
-                    _AudioSource.clip = GameScript.Instance._AudioClipError;
-                    _AudioSource.Play();
+                    if (oas.CanBeUse() && GameScript.Instance.PlayerCanAction && !ps.IsPicking())
+                    {
+                        LaunchAction();
+                    }
+                    else
+                    {
+                        _AudioSource.Stop();
+                        _AudioSource.clip = GameScript.Instance._AudioClipError;
+                        _AudioSource.Play();
+                    }
                 }
             }
         }

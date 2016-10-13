@@ -74,10 +74,17 @@ public class BoatScript : MonoBehaviour
                 _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
             }
 
-            foreach (GameObject go in _ListRepairZone)
+            if (!GameScript.Instance.IsGameEnd())
             {
-                if (go.activeSelf)
-                    go.GetComponent<Animator>().SetBool("Critic", (_CleanZones.Count == 0));
+                foreach (GameObject go in _ListRepairZone)
+                {
+                    if (go.activeSelf)
+                    {
+                        Animator animator = go.GetComponent<Animator>();
+                        if (animator)
+                            animator.SetBool("Critic", (_CleanZones.Count == 0));
+                    }
+                }
             }
         }
     }
@@ -90,8 +97,11 @@ public class BoatScript : MonoBehaviour
             _AudioSource.clip = _AudioClipImpact;
             _AudioSource.Play();
             Destroy(parCollider.gameObject);
-            _FeedBackCrack.SetActive(false);
-            _FeedBackCrack.SetActive(true);
+            if (_FeedBackCrack != null)
+            {
+                _FeedBackCrack.SetActive(false);
+                _FeedBackCrack.SetActive(true);
+            }
 
             if (_CleanZones.Count > 0)
             {
@@ -104,6 +114,7 @@ public class BoatScript : MonoBehaviour
             }
             else
             {
+                StartCoroutine(GameScript.Instance.LaunchEndLoose());
                 foreach (GameObject go in _SpritesEndBoat)
                     go.SetActive(true);
                 foreach (GameObject go in _ObjectsDisable)

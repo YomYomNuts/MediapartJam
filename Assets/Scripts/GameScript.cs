@@ -22,8 +22,11 @@ public class GameScript : MonoBehaviour
     #endregion
 
     #region Private Attributes
+    private List<CharacterScript> _Characters;
     private float _CurrentTimer;
     private bool _GameIsStart;
+    private bool _GameIsEnd;
+    private bool _PreviousAllDead;
     #endregion
 
     #region Static Attributs
@@ -72,6 +75,11 @@ public class GameScript : MonoBehaviour
         return !PlayerCanAction || !_GameIsStart;
     }
 
+    public bool IsGameEnd()
+    {
+        return _GameIsEnd;
+    }
+
     void Start()
     {
         _CurrentTimer = 0.0f;
@@ -80,6 +88,8 @@ public class GameScript : MonoBehaviour
         _GameIsStart = false;
         _PlayerCanAction = false;
         _PlayerCanDoAction = false;
+        _PreviousAllDead = false;
+        _Characters = new List<CharacterScript>(FindObjectsOfType<CharacterScript>());
         StartCoroutine(StartGame());
     }
 	
@@ -96,31 +106,63 @@ public class GameScript : MonoBehaviour
                     _CurrentTimer = _TimerGame;
                     _SliderGame.value = _CurrentTimer;
                     _PlayerCanDoAction = false;
-                    StartCoroutine(LaunchEnd());
+                    StartCoroutine(LaunchEndVictoire());
                 }
             }
+
+            bool allAreDead = true;
+            foreach (CharacterScript cs in _Characters)
+            {
+                if (!cs._IsDead)
+                {
+                    allAreDead = false;
+                    break;
+                }
+            }
+            if (!_PreviousAllDead && allAreDead)
+                StartCoroutine(LaunchEndLoose());
+            _PreviousAllDead = allAreDead;
         }
     }
 
-    IEnumerator LaunchEnd()
+    public IEnumerator LaunchEndLoose()
     {
-        foreach (GameObject go in _ObjectsDeasactivateOnEnd)
-            go.SetActive(false);
-
-        ObjectMoving om = _Phare.GetComponent<ObjectMoving>();
-        om.enabled = true;
-
-        while (om.transform.position != om._Goal.transform.position)
-            yield return 0.0f;
-
-        float time = 0.0f;
-        while (time < _TimeEnd)
+        if (!_GameIsEnd)
         {
-            time += Time.deltaTime;
-            yield return 0.0f;
+            _GameIsEnd = true;
+            float time = 0.0f;
+            while (time < _TimeEnd)
+            {
+                time += Time.deltaTime;
+                yield return 0.0f;
+            }
+            SceneManager.LoadScene("End");
         }
+    }
 
-        SceneManager.LoadScene("EndVictoire");
+    IEnumerator LaunchEndVictoire()
+    {
+        if (!_GameIsEnd)
+        {
+            _GameIsEnd = true;
+            foreach (GameObject go in _ObjectsDeasactivateOnEnd)
+                go.SetActive(false);
+
+            ObjectMoving om = _Phare.GetComponent<ObjectMoving>();
+            om.enabled = true;
+
+            while (om.transform.position != om._Goal.transform.position)
+                yield return 0.0f;
+
+            float time = 0.0f;
+            while (time < _TimeEnd)
+            {
+                time += Time.deltaTime;
+                yield return 0.0f;
+            }
+
+            SceneManager.LoadScene("EndVictoire");
+        }
     }
 
     IEnumerator StartGame()

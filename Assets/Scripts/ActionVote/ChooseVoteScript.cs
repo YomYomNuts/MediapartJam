@@ -29,6 +29,7 @@ public class ChooseVoteScript : MonoBehaviour
     public string _TitleAbstention;
     public Text _ObjectResultVoteType;
     public Text _ObjectFinalResult;
+    public AudioSource as1_BG_MainTheme;
     public AudioSource as2_BG_VoteSequence;
     public AudioSource as3_SFX_VoteSequence;
     public AudioClip ac_SFX_VoteSequence01;
@@ -219,6 +220,7 @@ public class ChooseVoteScript : MonoBehaviour
                         HidePancarte();
 
                         as2_BG_VoteSequence.Stop();
+                        as1_BG_MainTheme.Play();
 
                         if (_Result)
                             _CurrentActionVote.ValidateAction();
@@ -253,6 +255,9 @@ public class ChooseVoteScript : MonoBehaviour
             if (vccs.gameObject.activeSelf)
                 vccs.SetActive(true);
         }
+
+        // Pause MainTheme
+        as1_BG_MainTheme.Pause();
 
         // Launch VoteSequenceLoop
         as2_BG_VoteSequence.Stop();

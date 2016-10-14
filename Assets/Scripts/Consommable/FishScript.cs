@@ -18,7 +18,8 @@ public class FishScript : MonoBehaviour
 
     void Start()
     {
-        _CurrentStock = (int)Random.Range(_MaxStock / 2.0f, _MaxStock);
+        //_CurrentStock = (int)Random.Range(_MaxStock / 2.0f, _MaxStock);
+        _CurrentStock = 0;
         if (_Stock)
             _Stock.text = _CurrentStock.ToString();
     }

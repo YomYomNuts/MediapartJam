@@ -50,7 +50,7 @@ public class PressButtonOnSplash : MonoBehaviour
 
                 audioSource.Play();
                 button.SetActive(false);
-                textField.text = "\nJoueur " + displayedID + "\n\nPrêt!";
+                textField.text = "Joueur " + displayedID + "\nPrêt!";
 
                 isWaiting = false;
             }

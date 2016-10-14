@@ -28,6 +28,11 @@ public class FishScript : MonoBehaviour
     {
     }
 
+    public int GetStock()
+    {
+        return _CurrentStock;
+    }
+
     public void AddStock(int parValue)
     {
         _CurrentStock = (int)Mathf.Clamp(_CurrentStock + parValue, 0.0f, _MaxStock);

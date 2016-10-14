@@ -39,10 +39,19 @@ public class EatingScript : ActionVoteScript
     {
         if (_Character.CurrentAction == null)
         {
-            GameObject go = GetClosest();
-            if (go != null)
-                go.GetComponent<ObjectActionScript>().Use();
-            ChooseVoteScript.Instance.ShowPancarte(this);
+            if (_FishScript.GetStock() > 0)
+            {
+                GameObject go = GetClosest();
+                if (go != null)
+                    go.GetComponent<ObjectActionScript>().Use();
+                ChooseVoteScript.Instance.ShowPancarte(this);
+            }
+            else
+            {
+                _AudioSource.Stop();
+                _AudioSource.clip = GameScript.Instance._AudioClipError;
+                _AudioSource.Play();
+            }
         }
     }
 

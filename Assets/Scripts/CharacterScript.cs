@@ -48,7 +48,7 @@ public class CharacterScript : MonoBehaviour
 
 	void FixedUpdate()
     {
-        if (GameScript.Instance.PlayerCanAction && !_BlockMovement)
+        if (!GameScript.Instance.IsGamePause() && !_BlockMovement)
         {
             float moveRightLeft = Input.GetAxis("Horizontal_" + _IDJoystick);
             float moveUpDown = Input.GetAxis("Vertical_" + _IDJoystick);

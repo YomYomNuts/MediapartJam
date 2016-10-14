@@ -34,15 +34,16 @@ public class MovingBoatScript : ObjectActionPickScript
             _CharacterApplyAction._AudioSource.Stop();
             _CharacterApplyAction._AudioSource.clip = _AudioClipAction;
             _CharacterApplyAction._AudioSource.Play();
-            StartCoroutine(MoveBoat(mbzs._Direction * _Offset));
+            StartCoroutine(MoveBoat(mbzs._Direction * _Offset, mbzs._OffsetRotation));
         }
     }
 
-    IEnumerator MoveBoat(Vector3 parDirection)
+    IEnumerator MoveBoat(Vector3 parDirection, Vector3 parOffsetRotation)
     {
         float startMove = 0.0f;
         Vector3 normalizeDirectionBySecond = parDirection / _TimeForDeplacement;
         _CharacterApplyAction._BlockMovement = true;
+        _CharacterApplyAction.transform.eulerAngles += parOffsetRotation;
         _CharacterApplyAction._Animator.SetBool("Rowing", true);
         while (startMove < _TimeForDeplacement)
         {
@@ -56,5 +57,6 @@ public class MovingBoatScript : ObjectActionPickScript
         }
         _CharacterApplyAction._BlockMovement = false;
         _CharacterApplyAction._Animator.SetBool("Rowing", false);
+        _CharacterApplyAction.transform.eulerAngles -= parOffsetRotation;
     }
 }

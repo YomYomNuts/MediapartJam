@@ -13,6 +13,7 @@ public class FishingScript : ObjectActionPickScript
 
     #region Private Attributes
     private FishScript _FishScript;
+    private GameObject _ZoneAction;
     #endregion
 
     protected override void Start()
@@ -32,6 +33,10 @@ public class FishingScript : ObjectActionPickScript
                 _CharacterApplyAction._BlockMovement = false;
                 _CharacterApplyAction._Animator.SetBool("Fishing", false);
                 _FishScript.AddStock((int)Random.Range(_RangeFishToAdd.x, _RangeFishToAdd.y));
+
+                FishingZoneScript fzs = _ZoneAction.GetComponent<FishingZoneScript>();
+                if (fzs != null)
+                    _CharacterApplyAction.transform.eulerAngles -= fzs._OffsetRotation;
             }
         }
     }
@@ -57,6 +62,11 @@ public class FishingScript : ObjectActionPickScript
             _CharacterApplyAction = parCharacter;
             _CharacterApplyAction._BlockMovement = true;
             _CharacterApplyAction._Animator.SetBool("Fishing", true);
+
+            _ZoneAction = parZoneAction;
+            FishingZoneScript fzs = _ZoneAction.GetComponent<FishingZoneScript>();
+            if (fzs != null)
+                parCharacter.transform.eulerAngles += fzs._OffsetRotation;
         }
         else
         {

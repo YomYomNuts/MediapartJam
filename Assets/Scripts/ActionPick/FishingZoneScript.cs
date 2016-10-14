@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovingBoatZoneScript : MonoBehaviour
+public class FishingZoneScript : MonoBehaviour
 {
     #region Public Attributes
-    public Vector3 _Direction;
     public Vector3 _OffsetRotation;
     #endregion
 
@@ -16,9 +15,5 @@ public class MovingBoatZoneScript : MonoBehaviour
 
     void Start()
     {
-    }
-
-    void Update()
-    {
-    }
+	}
 }

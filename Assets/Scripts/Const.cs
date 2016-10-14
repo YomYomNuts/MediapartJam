@@ -56,5 +56,17 @@ public class Const
         CHOICE_ELECTIF,
         RESULT
     }
+
+    public enum MaxVote
+    {
+        ABSTENTION = 0,
+        MAJORITE,
+        ALEATOIRE,
+        PONDERE,
+        ELECTIF,
+        EGALITE_ALEATOIRE_PONDERE,
+        EGALITE_MAJORITAIRE_ELECTIF,
+        EGALITE_AUTRES_COMBINAISONS
+    }
     #endregion
 }

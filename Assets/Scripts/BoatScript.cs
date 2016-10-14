@@ -57,25 +57,25 @@ public class BoatScript : MonoBehaviour
     {
         if (!GameScript.Instance.IsGamePause())
         {
-            _CurrentTimerUsure += Time.deltaTime;
-            if (_CurrentTimerUsure > _TimerLaunchUsure)
-            {
-                if (_CleanZones.Count > 0)
-                {
-                    int index = Random.Range(0, _CleanZones.Count);
-                    _CleanZones[index].SetActive(true);
-                    _CleanZones.RemoveAt(index);
-                }
-                _AudioSource.Stop();
-                _AudioSource.clip = _AudioClipBreak;
-                _AudioSource.Play();
-
-                _CurrentTimerUsure = 0.0f;
-                _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
-            }
-
             if (!GameScript.Instance.IsGameEnd())
             {
+                _CurrentTimerUsure += Time.deltaTime;
+                if (_CurrentTimerUsure > _TimerLaunchUsure)
+                {
+                    if (_CleanZones.Count > 0)
+                    {
+                        int index = Random.Range(0, _CleanZones.Count);
+                        _CleanZones[index].SetActive(true);
+                        _CleanZones.RemoveAt(index);
+                    }
+                    _AudioSource.Stop();
+                    _AudioSource.clip = _AudioClipBreak;
+                    _AudioSource.Play();
+
+                    _CurrentTimerUsure = 0.0f;
+                    _TimerLaunchUsure = Random.Range(_RangeUsure.x, _RangeUsure.y);
+                }
+
                 foreach (GameObject go in _ListRepairZone)
                 {
                     if (go.activeSelf)

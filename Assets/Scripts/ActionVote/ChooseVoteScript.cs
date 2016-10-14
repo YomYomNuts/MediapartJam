@@ -326,12 +326,41 @@ public class ChooseVoteScript : MonoBehaviour
 
         if (resultType.Count > 1)
         {
+            bool aleatoireAndPondere = true;
+            bool majoriteAndElectif = true;
+
+            foreach (Const.TYPE_VOTE tp in resultType)
+            {
+                if (!(tp == Const.TYPE_VOTE.ALEATOIRE || tp == Const.TYPE_VOTE.ALEATOIRE_PONDERE))
+                    aleatoireAndPondere = false;
+                if (!(tp == Const.TYPE_VOTE.MAJORITE || tp == Const.TYPE_VOTE.ALEATOIRE_ELECTIVE))
+                    majoriteAndElectif = false;
+            }
+
+            Const.MaxVote mx = Const.MaxVote.EGALITE_AUTRES_COMBINAISONS;
+            if (aleatoireAndPondere)
+                mx = Const.MaxVote.EGALITE_ALEATOIRE_PONDERE;
+            else if (majoriteAndElectif)
+                mx = Const.MaxVote.EGALITE_MAJORITAIRE_ELECTIF;
+
+            if (!GameScript.Instance._NbToTalVote.ContainsKey(mx))
+                GameScript.Instance._NbToTalVote.Add(mx, 0);
+            ++GameScript.Instance._NbToTalVote[mx];
+
             while (resultType.Count > 1)
             {
                 int index = UnityEngine.Random.Range(0, resultType.Count);
                 resultType.RemoveAt(index);
             }
         }
+        else
+        {
+            Const.MaxVote mx = (Const.MaxVote)((int)resultType[0]);
+            if (!GameScript.Instance._NbToTalVote.ContainsKey(mx))
+                GameScript.Instance._NbToTalVote.Add(mx, 0);
+            ++GameScript.Instance._NbToTalVote[mx];
+        }
+
         string title = _TitleAbstention;
         switch (resultType[0])
         {

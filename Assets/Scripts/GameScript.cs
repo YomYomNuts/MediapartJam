@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameScript : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class GameScript : MonoBehaviour
     public float _TimerGame;
     public GameObject _BoatRender;
     public GameObject _Passerelle;
-    public float _TimerStart;
     public GameObject _Phare;
     public float _TimeEnd;
     public List<GameObject> _ObjectsDeasactivateOnEnd;
+    [HideInInspector]
+    public Dictionary<Const.MaxVote, int> _NbToTalVote = new Dictionary<Const.MaxVote, int>();
     #endregion
 
     #region Protected Attributes
@@ -160,6 +162,24 @@ public class GameScript : MonoBehaviour
                 time += Time.deltaTime;
                 yield return 0.0f;
             }
+
+            int nbALive = 0;
+            foreach (CharacterScript cs in _Characters)
+                nbALive += cs._IsDead ? 0 : 1;
+            PlayerPrefs.SetInt("NbAlive", nbALive);
+
+            var listOrder = _NbToTalVote.OrderByDescending(obj => obj.Value);
+            Const.MaxVote mx = Const.MaxVote.ABSTENTION;
+            foreach (var elem in listOrder)
+            {
+                if (elem.Key != Const.MaxVote.ABSTENTION)
+                {
+                    mx = elem.Key;
+                    break;
+                }
+            }
+            PlayerPrefs.SetInt("MaxVote", (int)mx);
+            PlayerPrefs.SetInt("Abstention", (_NbToTalVote.ContainsKey(Const.MaxVote.ABSTENTION) ? 1 : 0));
 
             SceneManager.LoadScene("EndVictoire");
         }
